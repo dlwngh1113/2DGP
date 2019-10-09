@@ -47,9 +47,9 @@ while True:
     main_page.clip_draw(0, 0, Width, Height, Width / 2, Height / 2)
     p1.image.clip_draw_to_origin(charWidth * 4, charHeight * frame, charWidth, charHeight, p1.x, p1.y, charWidth * 1.5,
                                   charHeight * 1.5)
-    p1.move()
     frame = (frame + 1) % 5 + 2
     update_canvas()
+    p1.move()
     delay(0.1)
 
 close_canvas()
