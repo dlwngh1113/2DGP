@@ -19,9 +19,7 @@ class player:
     def move(self):
         events = get_events()
         for event in events:
-            if event.type == SDL_QUIT:
-                close_canvas()
-            elif event.type == SDL_KEYDOWN:
+            if event.type == SDL_KEYDOWN:
                 if event.key == SDLK_LEFT:
                     player.dir -= 1
                     player.x += player.dir * player.vel
