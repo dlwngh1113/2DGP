@@ -40,7 +40,7 @@ def draw():
     clear_canvas()
     image.clip_draw(0, 0, game_framework.Width, game_framework.Height, game_framework.Width / 2, game_framework.Height / 2)
     start_state.player.draw()
-    delay(0.05)
+    delay(0.1)
     update_canvas()
 
 
