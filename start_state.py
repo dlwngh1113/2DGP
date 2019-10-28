@@ -10,8 +10,9 @@ player = None
 
 
 def enter():
-    global image
+    global image, player
     image = load_image('main page.png')
+    player = Player()
     pass
 
 
@@ -39,7 +40,7 @@ def update():
 
 
 def draw():
-    global image
+    global image, player
     clear_canvas()
     image.clip_draw(0, 0, game_framework.Width, game_framework.Height, game_framework.Width / 2, game_framework.Height / 2)
     update_canvas()

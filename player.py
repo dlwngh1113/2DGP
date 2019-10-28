@@ -7,9 +7,9 @@ class Player:
         self.x, self.y = 300, 300
         self.dir = 0
         self.vel = 30
-        self.charWidth = 41
-        self.charHeight = 51
-        self.xframe, self.yframe = 62.75, 55.3
+        self.charWidth = 62
+        self.charHeight = 55
+        self.xframe, self.yframe = 1, 0
 
     def draw(self):
         self.image.clip_draw_to_origin(self.charWidth * self.xframe, self.charHeight * self.yframe, self.charWidth,
@@ -18,5 +18,5 @@ class Player:
     def update(self):
         self.yframe = (self.yframe + 1) % 6
 
-
-player = Player()
+    def handle_event(self, event):
+        pass
