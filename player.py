@@ -14,12 +14,6 @@ key_event_table = {
 }
 
 
-class RunState:
-    pass
-
-class IdleState:
-    pass
-
 class Player:
     def __init__(self):
         self.image = load_image('character.png')
@@ -30,7 +24,7 @@ class Player:
         self.charHeight = 54
         self.xframe, self.yframe = 0, 0
         self.event_que = []
-        #self.cur_state = IdleState
+        self.cur_state = IdleState
         self.cur_state.enter(self, None)
 
     def draw(self):
@@ -52,8 +46,75 @@ class Player:
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
-            self.add_event(key_event)
+            #self.add_event(key_event)
         pass
+
+
+class RunState:
+    @staticmethod
+    def enter(player, event):
+        if event == RIGHT_DOWN:
+            player.velocity += 1
+        elif event == LEFT_DOWN:
+            player.velocity -= 1
+        elif event == RIGHT_UP:
+            player.velocity -= 1
+        elif event == LEFT_UP:
+            player.velocity += 1
+        player.dir = player.velocity
+
+    @staticmethod
+    def exit(player, event):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.yframe = (player.yframe + 1) % 5 + 3
+        player.timer -= 1
+        player.x += player.velocity
+        player.x = clamp(25, player.x, 800 - 25)
+
+    @staticmethod
+    def draw(player):
+        if player.velocity == 1:
+            #player.image.clip_draw(player.frame * 100, 100, 100, 100, player.x, player.y)
+            pass
+        else:
+            pass
+            #player.image.clip_draw(player.frame * 100, 0, 100, 100, player.x, player.y)
+    pass
+
+
+class IdleState:
+    @staticmethod
+    def enter(player, event):
+        if event == RIGHT_DOWN:
+            player.velocity += 1
+        elif event == LEFT_DOWN:
+            player.velocity -= 1
+        elif event == RIGHT_UP:
+            player.velocity -= 1
+        elif event == LEFT_UP:
+            player.velocity += 1
+        player.timer = 1000
+
+    @staticmethod
+    def exit(player, event):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.yframe = (player.yframe + 1) % 2 + 3
+
+    @staticmethod
+    def draw(player):
+        if player.dir == 1:
+            pass
+        # self.image.clip_draw_to_origin(self.charWidth * self.xframe, self.charHeight * self.yframe, self.charWidth,
+        #                               self.charHeight, self.x, self.y, self.charWidth * 1.5, self.charHeight * 1.5)
+        else:
+            #player.image.clip_draw(player.frame * 100, 200, 100, 100, player.x, player.y)
+            pass
 
 
 next_state_table = {
