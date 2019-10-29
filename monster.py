@@ -25,6 +25,7 @@ class Monster:
         self.charWidth = 33
         self.charHeight = 32
         self.money = 30
+        self.atk = 50
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = IdleState

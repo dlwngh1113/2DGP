@@ -53,8 +53,10 @@ class Player:
 
     def reinforce(self, cost):
         self.money -= cost
-        if random.randint(0, 100) < 70:
-            self.atk += int(self.atk ** 0.5) + 1
+        if random.randint(0, 100) < 80:
+            self.atk += int(self.atk ** 0.5)
+        else:
+            self.atk += int(self.atk ** 0.7) + 3
 
 
 class VerticMove:
