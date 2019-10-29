@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, UPSIDE_DOWN, UPSIDE_UP, DOWNSIDE_DOWN, DOWNSIDE_UP = range(8)
 
@@ -18,23 +19,21 @@ class Player:
     def __init__(self):
         self.image = load_image('character.png')
         self.x, self.y = 300, 300
-        self.dir = 0
-        self.vel = 30
+        self.horizon_dir, self.vertic_dir = 0, 0
+        self.velocity = 0
         self.charWidth = 55
         self.charHeight = 54
+        self.money = 0
+        self.atk = 50
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
 
     def draw(self):
-        #self.image.clip_draw_to_origin(self.charWidth * self.xframe, self.charHeight * self.yframe, self.charWidth,
-        #                               self.charHeight, self.x, self.y, self.charWidth * 1.5, self.charHeight * 1.5)
         self.cur_state.draw(self)
-        delay(0.01)
 
     def update(self):
-        #self.yframe = (self.yframe + 1) % 5 + 3
         self.cur_state.do(self)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
@@ -42,26 +41,37 @@ class Player:
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
 
+    def add_event(self, event):
+        self.event_que.insert(0, event)
+        pass
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
-            #self.add_event(key_event)
+            self.add_event(key_event)
         pass
 
+    def reinforce(self, cost):
+        self.money -= cost
+        if random.randint(0, 100) < 70:
+            self.atk += int(self.atk ** 0.5) + 1
 
-class RunState:
+
+class VerticMove:
     @staticmethod
     def enter(player, event):
-        if event == RIGHT_DOWN:
+        if event == UPSIDE_DOWN:
+            player.vertic_dir = 2
             player.velocity += 1
-        elif event == LEFT_DOWN:
+        elif event == DOWNSIDE_DOWN:
+            player.vertic_dir = 2
             player.velocity -= 1
-        elif event == RIGHT_UP:
+        elif event == UPSIDE_UP:
+            player.vertic_dir -= 1
             player.velocity -= 1
-        elif event == LEFT_UP:
+        elif event == DOWNSIDE_UP:
+            player.vertic_dir += 1
             player.velocity += 1
-        player.dir = player.velocity
 
     @staticmethod
     def exit(player, event):
@@ -69,34 +79,78 @@ class RunState:
 
     @staticmethod
     def do(player):
-        player.yframe = (player.yframe + 1) % 5 + 3
-        player.timer -= 1
-        player.x += player.velocity
-        player.x = clamp(25, player.x, 800 - 25)
+        player.yframe = (player.yframe + 1) % 5
+        player.y += player.velocity * player.vertic_dir * 10
+        player.y = clamp(-25, player.y, 700)
 
     @staticmethod
     def draw(player):
-        if player.velocity == 1:
-            #player.image.clip_draw(player.frame * 100, 100, 100, 100, player.x, player.y)
-            pass
+        if player.vertic_dir * player.velocity > 0:
+            player.image.clip_draw_to_origin(player.charWidth * 4, player.charHeight * (player.yframe + 4),
+                                             player.charWidth,
+                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                             player.charHeight * 1.5)
         else:
-            pass
-            #player.image.clip_draw(player.frame * 100, 0, 100, 100, player.x, player.y)
-    pass
+            player.image.clip_draw_to_origin(0, player.charHeight * (player.yframe + 4), player.charWidth,
+                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                             player.charHeight * 1.5)
+
+
+class HorizonMove:
+    @staticmethod
+    def enter(player, event):
+        if event == RIGHT_DOWN:
+            player.horizon_dir = 2
+            player.velocity += 1
+        elif event == LEFT_DOWN:
+            player.horizon_dir = 2
+            player.velocity -= 1
+        elif event == RIGHT_UP:
+            player.horizon_dir -= 1
+            player.velocity -= 1
+        elif event == LEFT_UP:
+            player.horizon_dir += 1
+            player.velocity += 1
+
+    @staticmethod
+    def exit(player, event):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.yframe = (player.yframe + 1) % 5
+        player.x += player.velocity * player.horizon_dir * 10
+        player.x = clamp(-25, player.x, 500)
+
+    @staticmethod
+    def draw(player):
+        if player.horizon_dir * player.velocity > 0:
+            player.image.clip_draw_to_origin(player.charWidth * 6, player.charHeight * (player.yframe + 4),
+                                             player.charWidth,
+                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                             player.charHeight * 1.5)
+        else:
+            player.image.clip_draw_to_origin(player.charWidth * 2, player.charHeight * (player.yframe + 4),
+                                             player.charWidth,
+                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                             player.charHeight * 1.5)
 
 
 class IdleState:
     @staticmethod
     def enter(player, event):
         if event == RIGHT_DOWN:
+            player.horizon_dir = 2
             player.velocity += 1
         elif event == LEFT_DOWN:
+            player.horizon_dir = 2
             player.velocity -= 1
         elif event == RIGHT_UP:
+            player.horizon_dir -= 1
             player.velocity -= 1
         elif event == LEFT_UP:
+            player.horizon_dir += 1
             player.velocity += 1
-        player.timer = 1000
 
     @staticmethod
     def exit(player, event):
@@ -104,26 +158,23 @@ class IdleState:
 
     @staticmethod
     def do(player):
-        player.yframe = (player.yframe + 1) % 2 + 3
+        player.yframe = (player.yframe + 1) % 5
 
     @staticmethod
     def draw(player):
-        if player.dir == 1:
-            pass
-        # self.image.clip_draw_to_origin(self.charWidth * self.xframe, self.charHeight * self.yframe, self.charWidth,
-        #                               self.charHeight, self.x, self.y, self.charWidth * 1.5, self.charHeight * 1.5)
-        else:
-            #player.image.clip_draw(player.frame * 100, 200, 100, 100, player.x, player.y)
-            pass
+        player.image.clip_draw_to_origin(player.charWidth * player.xframe, player.charHeight * (player.yframe + 4),
+                                         player.charWidth,
+                                         player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                         player.charHeight * 1.5)
 
 
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState,
-                RIGHT_DOWN: RunState, LEFT_DOWN: RunState,
-                UPSIDE_UP: RunState, UPSIDE_DOWN: RunState,
-                DOWNSIDE_DOWN: RunState, DOWNSIDE_UP: RunState},
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState,
-               RIGHT_DOWN: IdleState, LEFT_DOWN: IdleState,
-               UPSIDE_UP: IdleState, UPSIDE_DOWN: IdleState,
-               DOWNSIDE_DOWN: IdleState, DOWNSIDE_UP: IdleState}
+    IdleState: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
+                LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
+                UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
+                DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove},
+    HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
+                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove},
+    VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
+                 DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove}
 }
