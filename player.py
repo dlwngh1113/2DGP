@@ -1,5 +1,6 @@
 from pico2d import *
 import random
+import arrow
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, UPSIDE_DOWN, UPSIDE_UP, DOWNSIDE_DOWN, DOWNSIDE_UP = range(8)
 

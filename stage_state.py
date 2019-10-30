@@ -29,6 +29,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.pop_state()
         elif event.type == SDL_MOUSEBUTTONDOWN and event.key == SDL_BUTTON_LEFT:
+            start_state.player.attack()
             pass
         else:
             start_state.player.handle_event(event)
