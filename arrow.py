@@ -25,8 +25,6 @@ class Arrow:
             self.x = x
             self.y = y
             self.velocity += 2
-        if self.x > 550 or self.x < 0 or self.y < 0 or self.y > 750:
-            del self
         pass
 
     def handle_event(self):

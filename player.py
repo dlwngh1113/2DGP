@@ -41,6 +41,8 @@ class Player:
         self.cur_state.do(self)
         for arrow in self.arrow_list:
             arrow.update()
+            if arrow.x > 550 or arrow.x < 0 or arrow.y > 750 or arrow.y < 0 or arrow.velocity >= 100:
+                self.arrow_list.remove(arrow)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
