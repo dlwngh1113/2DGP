@@ -1,12 +1,14 @@
 from pico2d import *
 
+
 class Arrow:
     image = None
+
     def __init__(self, event, x, y):
         self.x = x
         self.y = y
         self.target_x = event.x
-        self.target_y = event.y
+        self.target_y = 750 - event.y
         self.velocity = 0
         if self.image == None:
             self.image = load_image('arrow_image.png')
@@ -22,7 +24,9 @@ class Arrow:
             y = (1 - t) * self.y + t * self.target_y
             self.x = x
             self.y = y
-            self.velocity += 1
+            self.velocity += 2
+        if self.x > 550 or self.x < 0 or self.y < 0 or self.y > 750:
+            del self
         pass
 
     def handle_event(self):

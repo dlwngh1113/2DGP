@@ -1,6 +1,6 @@
 from pico2d import *
 import random
-import arrow
+from arrow import Arrow
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, UPSIDE_DOWN, UPSIDE_UP, DOWNSIDE_DOWN, DOWNSIDE_UP = range(8)
 
@@ -27,15 +27,20 @@ class Player:
         self.charWidth = 55
         self.charHeight = 54
         self.xframe, self.yframe = 0, 0
+        self.arrow_list = []
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
 
     def draw(self):
         self.cur_state.draw(self)
+        for arrow in self.arrow_list:
+            arrow.draw()
 
     def update(self):
         self.cur_state.do(self)
+        for arrow in self.arrow_list:
+            arrow.update()
         if len(self.event_que) > 0:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
@@ -59,7 +64,8 @@ class Player:
         else:
             self.atk += int(self.atk ** 0.7) + 3
 
-    def attack(self):
+    def attack(self, event):
+        self.arrow_list.insert(0, Arrow(event, self.x, self.y))
         pass
 
 
