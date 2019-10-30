@@ -51,7 +51,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.pop_state()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:
-            start_state.player.money += 1000
+            start_state.player.money += 100000
         elif event.type == SDL_KEYDOWN and event.key == SDLK_t:
             if start_state.player.money > cost:
                 start_state.player.reinforce(cost)

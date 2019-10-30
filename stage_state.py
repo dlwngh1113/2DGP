@@ -3,6 +3,7 @@ import game_framework
 import item_state
 import start_state
 from monster import Monster
+import arrow
 
 name = "StageState"
 image = None
@@ -17,7 +18,6 @@ def enter():
 
 def exit():
     global image
-    start_state.player.x, start_state.player.y = 300, 300
     pass
 
 
@@ -28,6 +28,8 @@ def handle_events():
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.pop_state()
+        elif event.type == SDL_MOUSEBUTTONDOWN and event.key == SDL_BUTTON_LEFT:
+            pass
         else:
             start_state.player.handle_event(event)
     pass

@@ -16,6 +16,8 @@ key_event_table = {
 
 
 class Player:
+    money = 0
+    atk = 50
     def __init__(self):
         self.image = load_image('character.png')
         self.x, self.y = 300, 300
@@ -23,8 +25,6 @@ class Player:
         self.velocity = 0
         self.charWidth = 55
         self.charHeight = 54
-        self.money = 0
-        self.atk = 50
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = IdleState
@@ -57,6 +57,9 @@ class Player:
             self.atk += int(self.atk ** 0.5)
         else:
             self.atk += int(self.atk ** 0.7) + 3
+
+    def attack(self):
+        pass
 
 
 class VerticMove:
@@ -173,10 +176,10 @@ class IdleState:
 next_state_table = {
     IdleState: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
                 LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
-                DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove},
+                UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
+                DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
     HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
                   LEFT_UP: IdleState, LEFT_DOWN: HorizonMove},
-    VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
-                 DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove}
+#    VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
+#                 DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove}
 }
