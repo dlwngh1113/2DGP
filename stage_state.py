@@ -13,6 +13,7 @@ monster = None
 def enter():
     global image, monster
     monster = Monster()
+    start_state.player.stage_init()
     pass
 
 

@@ -22,6 +22,7 @@ class Player:
     def __init__(self):
         self.image = load_image('character.png')
         self.x, self.y = 300, 300
+        self.life = 1000
         self.horizon_dir, self.vertic_dir = 0, 0
         self.velocity = 0
         self.charWidth = 55
@@ -31,6 +32,10 @@ class Player:
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
+
+    def stage_init(self):
+        self.x, self.y = 250, 0
+        self.life = 1000
 
     def draw(self):
         self.cur_state.draw(self)

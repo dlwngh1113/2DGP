@@ -24,7 +24,7 @@ class Arrow:
             y = (1 - t) * self.y + t * self.target_y
             self.x = x
             self.y = y
-            self.velocity += 2
+            self.velocity += 10
         pass
 
     def handle_event(self):
