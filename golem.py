@@ -16,7 +16,7 @@ key_event_table = {
 }
 
 
-class Monster:
+class Golem:
     def __init__(self):
         self.image = load_image('mob1.png')
         self.x, self.y = random.randint(0, 500), random.randint(0, 700)
@@ -26,7 +26,7 @@ class Monster:
         self.charHeight = 32
         self.money = 30
         self.atk = 50
-        self.health = 600
+        self.health = 1000
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = IdleState
