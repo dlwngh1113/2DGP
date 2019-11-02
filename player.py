@@ -170,6 +170,18 @@ class IdleState:
         elif event == LEFT_UP:
             player.horizon_dir += 1
             player.velocity += 1
+        elif event == UPSIDE_DOWN:
+            player.vertic_dir = 2
+            player.velocity += 1
+        elif event == DOWNSIDE_DOWN:
+            player.vertic_dir = 2
+            player.velocity -= 1
+        elif event == UPSIDE_UP:
+            player.vertic_dir -= 1
+            player.velocity -= 1
+        elif event == DOWNSIDE_UP:
+            player.vertic_dir += 1
+            player.velocity += 1
 
     @staticmethod
     def exit(player, event):
@@ -190,10 +202,14 @@ class IdleState:
 next_state_table = {
     IdleState: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
                 LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
-                DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
+                UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
+                DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove},
     HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
-                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove},
-#    VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
-#                 DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove}
+                  UPSIDE_UP: HorizonMove, UPSIDE_DOWN: VerticMove,
+                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
+                  DOWNSIDE_UP: HorizonMove, DOWNSIDE_DOWN: VerticMove},
+    VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
+                 LEFT_UP: VerticMove, LEFT_DOWN: HorizonMove,
+                 DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove,
+                 RIGHT_UP: VerticMove, RIGHT_DOWN: HorizonMove}
 }
