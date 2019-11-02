@@ -170,18 +170,6 @@ class IdleState:
         elif event == LEFT_UP:
             player.horizon_dir += 1
             player.velocity += 1
-        elif event == UPSIDE_DOWN:
-            player.vertic_dir = 2
-            player.velocity += 1
-        elif event == DOWNSIDE_DOWN:
-            player.vertic_dir = 2
-            player.velocity -= 1
-        elif event == UPSIDE_UP:
-            player.vertic_dir -= 1
-            player.velocity -= 1
-        elif event == DOWNSIDE_UP:
-            player.vertic_dir += 1
-            player.velocity += 1
 
     @staticmethod
     def exit(player, event):
