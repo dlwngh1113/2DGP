@@ -16,17 +16,17 @@ key_event_table = {
 }
 
 
-class Golem:
+class Ghost:
     def __init__(self):
-        self.image = load_image('mob1.png')
+        self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\ghost image.png')
         self.x, self.y = random.randint(0, 500), random.randint(0, 700)
         self.horizon_dir, self.vertic_dir = 0, 0
-        self.velocity = 2
+        self.velocity = 4
         self.charWidth = 33
         self.charHeight = 32
         self.money = 30
-        self.atk = 50
-        self.health = 1000
+        self.atk = 30
+        self.health = 500
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = IdleState
@@ -60,7 +60,7 @@ class IdleState:
 
     @staticmethod
     def exit(monster, event):
-        del(monster)
+        del (monster)
         pass
 
     @staticmethod

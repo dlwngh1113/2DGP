@@ -20,7 +20,7 @@ class Player:
     money = 0
     atk = 50
     def __init__(self):
-        self.image = load_image('character.png')
+        self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
         self.x, self.y = 300, 300
         self.life = 1000
         self.horizon_dir, self.vertic_dir = 0, 0

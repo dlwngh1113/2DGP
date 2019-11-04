@@ -11,7 +11,7 @@ class Arrow:
         self.target_y = 750 - event.y
         self.velocity = 0
         if self.image == None:
-            self.image = load_image('arrow_image.png')
+            self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\arrow_image.png')
 
     def draw(self):
         self.image.clip_draw(110, 0, 55, 48, self.x, self.y)

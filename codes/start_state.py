@@ -12,8 +12,8 @@ money_font = None
 
 def enter():
     global image, player, money_font
-    money_font = Font('gothic.ttf')
-    image = load_image('main page.png')
+    money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
+    image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\main page.png')
     player = Player()
     pass
 
