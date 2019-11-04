@@ -23,8 +23,9 @@ class Player:
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
         self.x, self.y = 300, 300
         self.life = 1000
-        self.horizon_dir, self.vertic_dir = 0, 0
-        self.velocity = 0
+        self.horizon_dir, self.vertic_dir = 2, 2
+        self.vertic_vel = 0
+        self.horizon_vel = 0
         self.charWidth = 55
         self.charHeight = 54
         self.xframe, self.yframe = 0, 0
@@ -119,17 +120,21 @@ class HorizonMove:
     @staticmethod
     def enter(player, event):
         if event == RIGHT_DOWN:
-            player.horizon_dir = 2
-            player.velocity += 1
+            player.horizon_vel += 1
         elif event == LEFT_DOWN:
-            player.horizon_dir = 2
-            player.velocity -= 1
+            player.horizon_vel -= 1
         elif event == RIGHT_UP:
-            player.horizon_dir -= 1
-            player.velocity -= 1
+            player.horizon_vel -= 1
         elif event == LEFT_UP:
-            player.horizon_dir += 1
-            player.velocity += 1
+            player.horizon_vel += 1
+        if event == UPSIDE_DOWN:
+            player.vertic_vel += 1
+        elif event == DOWNSIDE_DOWN:
+            player.vertic_vel -= 1
+        elif event == UPSIDE_UP:
+            player.vertic_vel -= 1
+        elif event == DOWNSIDE_UP:
+            player.vertic_vel += 1
 
     @staticmethod
     def exit(player, event):
@@ -138,12 +143,14 @@ class HorizonMove:
     @staticmethod
     def do(player):
         player.yframe = (player.yframe + 1) % 5
-        player.x += player.velocity * player.horizon_dir * 10
+        player.x += player.horizon_vel * player.horizon_dir * 10
         player.x = clamp(-25, player.x, 500)
+        player.y += player.vertic_vel * player.vertic_dir * 10
+        player.y = clamp(-25, player.y, 700)
 
     @staticmethod
     def draw(player):
-        if player.horizon_dir * player.velocity > 0:
+        if player.horizon_dir * player.horizon_vel > 0:
             player.image.clip_draw_to_origin(player.charWidth * 6, player.charHeight * (player.yframe + 4),
                                              player.charWidth,
                                              player.charHeight, player.x, player.y, player.charWidth * 1.5,
@@ -159,17 +166,21 @@ class IdleState:
     @staticmethod
     def enter(player, event):
         if event == RIGHT_DOWN:
-            player.horizon_dir = 2
-            player.velocity += 1
+            player.horizon_vel += 1
         elif event == LEFT_DOWN:
-            player.horizon_dir = 2
-            player.velocity -= 1
+            player.horizon_vel -= 1
         elif event == RIGHT_UP:
-            player.horizon_dir -= 1
-            player.velocity -= 1
+            player.horizon_vel -= 1
         elif event == LEFT_UP:
-            player.horizon_dir += 1
-            player.velocity += 1
+            player.horizon_vel += 1
+        if event == UPSIDE_DOWN:
+            player.vertic_vel += 1
+        elif event == DOWNSIDE_DOWN:
+            player.vertic_vel -= 1
+        elif event == UPSIDE_UP:
+            player.vertic_vel -= 1
+        elif event == DOWNSIDE_UP:
+            player.vertic_vel += 1
 
     @staticmethod
     def exit(player, event):
@@ -189,15 +200,15 @@ class IdleState:
 
 next_state_table = {
     IdleState: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
-                LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
-                DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove},
-    HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
-                  UPSIDE_UP: HorizonMove, UPSIDE_DOWN: VerticMove,
+                  UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
                   LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                  DOWNSIDE_UP: HorizonMove, DOWNSIDE_DOWN: VerticMove},
-    VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
-                 LEFT_UP: VerticMove, LEFT_DOWN: HorizonMove,
-                 DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove,
-                 RIGHT_UP: VerticMove, RIGHT_DOWN: HorizonMove}
+                  DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
+    HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
+                  UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
+                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
+                  DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
+    # VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
+    #              LEFT_UP: VerticMove, LEFT_DOWN: HorizonMove,
+    #              DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove,
+    #              RIGHT_UP: VerticMove, RIGHT_DOWN: HorizonMove}
 }

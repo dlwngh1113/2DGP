@@ -26,6 +26,8 @@ def exit():
         golem_swarm.pop()
     while len(ghost_swarm) > 0:
         ghost_swarm.pop()
+    while len(start_state.player.arrow_list) > 0:
+        start_state.player.arrow_list.pop()
     pass
 
 
