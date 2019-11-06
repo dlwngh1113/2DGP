@@ -1,9 +1,19 @@
-import pico2d
+from pico2d import *
 import math
 
-f = open('map1.txt', 'w')
+open_canvas(550, 750)
 
-for i in range(10):
-    f.write(str(i))
+def load():
+    pass
 
-f.close
+def save():
+    pass
+
+def handle_events():
+    events = get_events()
+    for event in events:
+        if event.x // 50
+    pass
+
+while True:
+    handle_events()
