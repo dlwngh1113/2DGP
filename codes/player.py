@@ -23,7 +23,7 @@ class Player:
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
         self.x, self.y = 300, 300
         self.life = 1000
-        self.horizon_dir, self.vertic_dir = 2, 2
+        self.horizon_dir, self.vertic_dir = 0, 0
         self.vertic_vel = 0
         self.horizon_vel = 0
         self.charWidth = 55
@@ -120,20 +120,28 @@ class HorizonMove:
     @staticmethod
     def enter(player, event):
         if event == RIGHT_DOWN:
+            player.horizon_dir = 2
             player.horizon_vel += 1
         elif event == LEFT_DOWN:
+            player.horizon_dir = 2
             player.horizon_vel -= 1
         elif event == RIGHT_UP:
+            player.horizon_dir -= 1
             player.horizon_vel -= 1
         elif event == LEFT_UP:
+            player.horizon_dir += 1
             player.horizon_vel += 1
         if event == UPSIDE_DOWN:
+            player.vertic_dir = 2
             player.vertic_vel += 1
         elif event == DOWNSIDE_DOWN:
+            player.vertic_dir = 2
             player.vertic_vel -= 1
         elif event == UPSIDE_UP:
+            player.vertic_dir -= 1
             player.vertic_vel -= 1
         elif event == DOWNSIDE_UP:
+            player.vertic_dir += 1
             player.vertic_vel += 1
 
     @staticmethod
@@ -166,20 +174,28 @@ class IdleState:
     @staticmethod
     def enter(player, event):
         if event == RIGHT_DOWN:
+            player.horizon_dir = 2
             player.horizon_vel += 1
         elif event == LEFT_DOWN:
+            player.horizon_dir = 2
             player.horizon_vel -= 1
         elif event == RIGHT_UP:
+            player.horizon_dir -= 1
             player.horizon_vel -= 1
         elif event == LEFT_UP:
+            player.horizon_dir += 1
             player.horizon_vel += 1
         if event == UPSIDE_DOWN:
+            player.vertic_dir = 2
             player.vertic_vel += 1
         elif event == DOWNSIDE_DOWN:
+            player.vertic_dir = 2
             player.vertic_vel -= 1
         elif event == UPSIDE_UP:
+            player.vertic_dir -= 1
             player.vertic_vel -= 1
         elif event == DOWNSIDE_UP:
+            player.vertic_dir += 1
             player.vertic_vel += 1
 
     @staticmethod
