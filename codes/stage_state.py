@@ -5,17 +5,20 @@ import start_state
 from golem import Golem
 from ghost import Ghost
 import arrow
+from map import Map
 
 name = "StageState"
 image = None
 timer = None
+map = None
 golem_swarm = []
 ghost_swarm = []
 
 
 def enter():
-    global image, timer
+    global image, timer, map
     start_state.player.stage_init()
+    map = Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt')
     timer = 1000
     pass
 
@@ -61,9 +64,9 @@ def update():
 
 
 def draw():
-    global image, golem_swarm, ghost_swarm
+    global image, golem_swarm, ghost_swarm, map
     clear_canvas()
-    # image.clip_draw(0, 0, game_framework.Width, game_framework.Height, game_framework.Width / 2, game_framework.Height / 2)
+    map.draw()
     start_state.player.draw()
     for golem in golem_swarm:
         golem.draw()
