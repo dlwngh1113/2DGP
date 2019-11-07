@@ -5,6 +5,7 @@ WIDTH, HEIGHT = 550, 750
 open_canvas(WIDTH, HEIGHT)
 map_list = []
 SIZE = 50
+image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\tile_sheet.png')
 
 
 def load():
