@@ -3,6 +3,7 @@ from pico2d import *
 
 class Arrow:
     image = None
+    frame = None
 
     def __init__(self, event, x, y):
         self.x = x
@@ -10,12 +11,13 @@ class Arrow:
         self.target_x = event.x
         self.target_y = 750 - event.y
         self.velocity = 0
+        if()
         if self.image == None:
             self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\arrow_image.png')
 
     def draw(self):
         self.image.clip_draw(110, 0, 55, 48, self.x, self.y)
-        self.image.clip_composite_draw()
+        #self.image.clip_composite_draw()
         pass
 
     def update(self):
