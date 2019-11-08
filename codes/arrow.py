@@ -15,6 +15,7 @@ class Arrow:
 
     def draw(self):
         self.image.clip_draw(110, 0, 55, 48, self.x, self.y)
+        self.image.clip_composite_draw()
         pass
 
     def update(self):
