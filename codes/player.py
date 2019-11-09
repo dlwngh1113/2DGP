@@ -153,8 +153,6 @@ class HorizonMove:
         player.yframe = (player.yframe + 1) % 5
         player.x += player.horizon_vel * player.horizon_dir * 10
         player.x = clamp(-25, player.x, 500)
-        player.y += player.vertic_vel * player.vertic_dir * 10
-        player.y = clamp(-25, player.y, 700)
 
     @staticmethod
     def draw(player):
@@ -185,18 +183,18 @@ class IdleState:
         elif event == LEFT_UP:
             player.horizon_dir += 1
             player.horizon_vel += 1
-        if event == UPSIDE_DOWN:
-            player.vertic_dir = 2
-            player.vertic_vel += 1
-        elif event == DOWNSIDE_DOWN:
-            player.vertic_dir = 2
-            player.vertic_vel -= 1
-        elif event == UPSIDE_UP:
-            player.vertic_dir -= 1
-            player.vertic_vel -= 1
-        elif event == DOWNSIDE_UP:
-            player.vertic_dir += 1
-            player.vertic_vel += 1
+        # if event == UPSIDE_DOWN:
+        #     player.vertic_dir = 2
+        #     player.vertic_vel += 1
+        # elif event == DOWNSIDE_DOWN:
+        #     player.vertic_dir = 2
+        #     player.vertic_vel -= 1
+        # elif event == UPSIDE_UP:
+        #     player.vertic_dir -= 1
+        #     player.vertic_vel -= 1
+        # elif event == DOWNSIDE_UP:
+        #     player.vertic_dir += 1
+        #     player.vertic_vel += 1
 
     @staticmethod
     def exit(player, event):
@@ -214,15 +212,59 @@ class IdleState:
                                          player.charHeight * 1.5)
 
 
+class Runstate:
+    @staticmethod
+    def enter(player, event):
+        if event == RIGHT_DOWN:
+            player.horizon_dir = 2
+            player.horizon_vel += 1
+        elif event == LEFT_DOWN:
+            player.horizon_dir = 2
+            player.horizon_vel -= 1
+        elif event == RIGHT_UP:
+            player.horizon_dir -= 1
+            player.horizon_vel -= 1
+        elif event == LEFT_UP:
+            player.horizon_dir += 1
+            player.horizon_vel += 1
+
+    @staticmethod
+    def exit(player, event):
+        pass
+
+    @staticmethod
+    def do(player):
+        player.yframe = (player.yframe + 1) % 5
+        player.x += player.horizon_vel * player.horizon_dir * 10
+        player.x = clamp(-25, player.x, 500)
+
+    @staticmethod
+    def draw(player):
+        if player.horizon_dir * player.horizon_vel > 0:
+            player.image.clip_draw_to_origin(player.charWidth * 6, player.charHeight * (player.yframe + 4),
+                                             player.charWidth,
+                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                             player.charHeight * 1.5)
+        else:
+            player.image.clip_draw_to_origin(player.charWidth * 2, player.charHeight * (player.yframe + 4),
+                                             player.charWidth,
+                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                             player.charHeight * 1.5)
+
+
 next_state_table = {
-    IdleState: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
-                  UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
-                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                  DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
-    HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
-                  UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
-                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                  DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
+    IdleState: {RIGHT_UP: IdleState, RIGHT_DOWN: Runstate,
+                  UPSIDE_UP: IdleState, UPSIDE_DOWN: Runstate,
+                  LEFT_UP: IdleState, LEFT_DOWN: Runstate,
+                  DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: Runstate},
+    Runstate: {RIGHT_DOWN: Runstate, RIGHT_UP: IdleState,
+               LEFT_DOWN: Runstate, LEFT_UP: IdleState,
+               UPSIDE_DOWN: Runstate, UPSIDE_UP: IdleState,
+               DOWNSIDE_DOWN:Runstate, DOWNSIDE_UP: IdleState}
+    # HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
+    #               UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
+    #               LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
+    #               DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
     # VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
     #              LEFT_UP: VerticMove, LEFT_DOWN: HorizonMove,
     #              DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove,
