@@ -26,6 +26,7 @@ class Player:
         self.horizon_dir, self.vertic_dir = 0, 0
         self.vertic_vel = 0
         self.horizon_vel = 0
+        self.Isvertic = False
         self.charWidth = 55
         self.charHeight = 54
         self.xframe, self.yframe = 0, 0
