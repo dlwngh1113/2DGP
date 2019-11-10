@@ -4,6 +4,7 @@ import item_state
 import start_state
 from golem import Golem
 from ghost import Ghost
+import random
 import arrow
 from map import Map
 
@@ -56,10 +57,12 @@ def update():
     for ghost in ghost_swarm:
         ghost.update()
     if timer == 0:
-        golem_swarm.insert(0, Golem())
-        ghost_swarm.insert(0, Ghost())
+        if random.randint(0, 100) < 50:
+            golem_swarm.insert(0, Golem())
+        else:
+            ghost_swarm.insert(0, Ghost())
         timer = 1000
-    timer -= 50
+    timer -= 100
     pass
 
 
