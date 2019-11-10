@@ -9,6 +9,7 @@ from map import Map
 
 name = "StageState"
 image = None
+timer = None
 map = None
 golem_swarm = []
 ghost_swarm = []
@@ -18,6 +19,7 @@ def enter():
     global image, timer, map
     start_state.player.stage_init()
     map = Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt')
+    timer = 1000
     pass
 
 
@@ -47,12 +49,17 @@ def handle_events():
 
 
 def update():
-    global golem_swarm, ghost_swarm
+    global golem_swarm, ghost_swarm, timer
     start_state.player.update()
     for golem in golem_swarm:
         golem.update()
     for ghost in ghost_swarm:
         ghost.update()
+    if timer == 0:
+        golem_swarm.insert(0, Golem())
+        ghost_swarm.insert(0, Ghost())
+        timer = 1000
+    timer -= 50
     pass
 
 
