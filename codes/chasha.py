@@ -1,19 +1,21 @@
 from pico2d import *
+import random
+
 
 class Chasha:
     def __init__(self):
-        self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\golem image.png')
-        self.x, self.y = random.randint(0, 500), random.randint(0, 700)
-        self.horizon_dir, self.vertic_dir = 0, 0
+        self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\chasha.png')
+        self.x, self.y = 250, 600
         self.velocity = 2
         self.charWidth = 33
         self.charHeight = 32
-        self.drop_money = 30
+        self.drop_money = 2356
         self.atk = 50
-        self.health = 1000
+        self.level = 4
+        self.health = self.level * 500
         self.xframe, self.yframe = 0, 0
         self.event_que = []
-        self.cur_state = IdleState
+        self.cur_state = Swerving
         self.cur_state.enter(self, None)
 
     def draw(self):
@@ -27,3 +29,25 @@ class Chasha:
 
     def handle_event(self, event):
         pass
+
+
+class Swerving:
+    @staticmethod
+    def enter(monster, event):
+        pass
+
+    @staticmethod
+    def exit(monster, event):
+        del monster
+        pass
+
+    @staticmethod
+    def do(monster):
+        pass
+
+    @staticmethod
+    def draw(monster):
+        monster.image.clip_draw_to_origin(monster.charWidth * monster.xframe, monster.charHeight * (monster.yframe + 4),
+                                          monster.charWidth,
+                                          monster.charHeight, monster.x, monster.y, monster.charWidth * 1.5,
+                                          monster.charHeight * 1.5)
