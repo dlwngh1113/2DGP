@@ -27,6 +27,7 @@ class Player:
         self.vertic_vel = 0
         self.horizon_vel = 0
         self.Isvertic = False
+        self.Ishorizon = False
         self.charWidth = 55
         self.charHeight = 54
         self.xframe, self.yframe = 0, 0
@@ -81,18 +82,40 @@ class Player:
 class VerticMove:
     @staticmethod
     def enter(player, event):
+        if event == RIGHT_DOWN:
+            player.horizon_dir = 2
+            player.horizon_vel += 1
+            player.Ishorizon = True
+        elif event == LEFT_DOWN:
+            player.horizon_dir = 2
+            player.horizon_vel -= 1
+            player.Ishorizon = True
+        elif event == RIGHT_UP:
+            player.horizon_dir -= 1
+            player.horizon_vel -= 1
+            if player.Isvertic:
+                player.add_event(VerticMove)
+        elif event == LEFT_UP:
+            player.horizon_dir += 1
+            player.horizon_vel += 1
+            if player.Isvertic:
+                player.add_event(VerticMove)
         if event == UPSIDE_DOWN:
             player.vertic_dir = 2
-            player.velocity += 1
+            player.vertic_vel += 1
+            player.Isvertic = True
         elif event == DOWNSIDE_DOWN:
             player.vertic_dir = 2
-            player.velocity -= 1
+            player.vertic_vel -= 1
+            player.Isvertic = True
         elif event == UPSIDE_UP:
             player.vertic_dir -= 1
-            player.velocity -= 1
+            player.vertic_vel -= 1
+            player.Isvertic = False
         elif event == DOWNSIDE_UP:
             player.vertic_dir += 1
-            player.velocity += 1
+            player.vertic_vel += 1
+            player.Isvertic = False
 
     @staticmethod
     def exit(player, event):
@@ -106,7 +129,7 @@ class VerticMove:
 
     @staticmethod
     def draw(player):
-        if player.vertic_dir * player.velocity > 0:
+        if player.vertic_dir * player.vertic_vel > 0:
             player.image.clip_draw_to_origin(player.charWidth * 4, player.charHeight * (player.yframe + 4),
                                              player.charWidth,
                                              player.charHeight, player.x, player.y, player.charWidth * 1.5,
@@ -123,27 +146,37 @@ class HorizonMove:
         if event == RIGHT_DOWN:
             player.horizon_dir = 2
             player.horizon_vel += 1
+            player.Ishorizon = True
         elif event == LEFT_DOWN:
             player.horizon_dir = 2
             player.horizon_vel -= 1
+            player.Ishorizon = True
         elif event == RIGHT_UP:
             player.horizon_dir -= 1
             player.horizon_vel -= 1
+            player.Ishorizon = False
         elif event == LEFT_UP:
             player.horizon_dir += 1
             player.horizon_vel += 1
+            player.Ishorizon = False
         if event == UPSIDE_DOWN:
             player.vertic_dir = 2
             player.vertic_vel += 1
+            player.Isvertic = True
         elif event == DOWNSIDE_DOWN:
             player.vertic_dir = 2
             player.vertic_vel -= 1
+            player.Isvertic = True
         elif event == UPSIDE_UP:
             player.vertic_dir -= 1
             player.vertic_vel -= 1
+            if player.Ishorizon:
+                player.add_event(HorizonMove)
         elif event == DOWNSIDE_UP:
             player.vertic_dir += 1
             player.vertic_vel += 1
+            if player.Ishorizon:
+                player.add_event(HorizonMove)
 
     @staticmethod
     def exit(player, event):
@@ -175,27 +208,35 @@ class IdleState:
         if event == RIGHT_DOWN:
             player.horizon_dir = 2
             player.horizon_vel += 1
+            player.Ishorizon = True
         elif event == LEFT_DOWN:
             player.horizon_dir = 2
             player.horizon_vel -= 1
+            player.Ishorizon = True
         elif event == RIGHT_UP:
             player.horizon_dir -= 1
             player.horizon_vel -= 1
+            player.Ishorizon = False
         elif event == LEFT_UP:
             player.horizon_dir += 1
             player.horizon_vel += 1
-        # if event == UPSIDE_DOWN:
-        #     player.vertic_dir = 2
-        #     player.vertic_vel += 1
-        # elif event == DOWNSIDE_DOWN:
-        #     player.vertic_dir = 2
-        #     player.vertic_vel -= 1
-        # elif event == UPSIDE_UP:
-        #     player.vertic_dir -= 1
-        #     player.vertic_vel -= 1
-        # elif event == DOWNSIDE_UP:
-        #     player.vertic_dir += 1
-        #     player.vertic_vel += 1
+            player.Ishorizon = False
+        if event == UPSIDE_DOWN:
+            player.vertic_dir = 2
+            player.vertic_vel += 1
+            player.Isvertic = True
+        elif event == DOWNSIDE_DOWN:
+            player.vertic_dir = 2
+            player.vertic_vel -= 1
+            player.Isvertic = True
+        elif event == UPSIDE_UP:
+            player.vertic_dir -= 1
+            player.vertic_vel -= 1
+            player.Isvertic = False
+        elif event == DOWNSIDE_UP:
+            player.vertic_dir += 1
+            player.vertic_vel += 1
+            player.Isvertic = False
 
     @staticmethod
     def exit(player, event):
