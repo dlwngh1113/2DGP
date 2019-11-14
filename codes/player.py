@@ -82,24 +82,6 @@ class Player:
 class VerticMove:
     @staticmethod
     def enter(player, event):
-        if event == RIGHT_DOWN:
-            player.horizon_dir = 2
-            player.horizon_vel += 1
-            player.Ishorizon = True
-        elif event == LEFT_DOWN:
-            player.horizon_dir = 2
-            player.horizon_vel -= 1
-            player.Ishorizon = True
-        elif event == RIGHT_UP:
-            player.horizon_dir -= 1
-            player.horizon_vel -= 1
-            if player.Isvertic:
-                player.add_event(VerticMove)
-        elif event == LEFT_UP:
-            player.horizon_dir += 1
-            player.horizon_vel += 1
-            if player.Isvertic:
-                player.add_event(VerticMove)
         if event == UPSIDE_DOWN:
             player.vertic_dir = 2
             player.vertic_vel += 1
@@ -220,22 +202,6 @@ class IdleState:
             player.horizon_dir += 1
             player.horizon_vel += 1
             player.Ishorizon = False
-        if event == UPSIDE_DOWN:
-            player.vertic_dir = 2
-            player.vertic_vel += 1
-            player.Isvertic = True
-        elif event == DOWNSIDE_DOWN:
-            player.vertic_dir = 2
-            player.vertic_vel -= 1
-            player.Isvertic = True
-        elif event == UPSIDE_UP:
-            player.vertic_dir -= 1
-            player.vertic_vel -= 1
-            player.Isvertic = False
-        elif event == DOWNSIDE_UP:
-            player.vertic_dir += 1
-            player.vertic_vel += 1
-            player.Isvertic = False
 
     @staticmethod
     def exit(player, event):
@@ -258,12 +224,12 @@ next_state_table = {
                   UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
                   LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
                   DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove},
-    HorizonMove: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
-                  UPSIDE_UP: IdleState, UPSIDE_DOWN: HorizonMove,
-                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                  DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: HorizonMove},
-    VerticMove: {UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
-                 LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                 DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove,
-                 RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove}
+    HorizonMove: {RIGHT_UP: HorizonMove, RIGHT_DOWN: HorizonMove,
+                  UPSIDE_UP: VerticMove, UPSIDE_DOWN: VerticMove,
+                  LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
+                  DOWNSIDE_UP: VerticMove, DOWNSIDE_DOWN: VerticMove},
+    VerticMove: {UPSIDE_UP: VerticMove, UPSIDE_DOWN: VerticMove,
+                 LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
+                 DOWNSIDE_UP: VerticMove, DOWNSIDE_DOWN: VerticMove,
+                 RIGHT_UP: HorizonMove, RIGHT_DOWN: HorizonMove}
 }
