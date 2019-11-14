@@ -30,6 +30,7 @@ class Player:
         self.Ishorizon = False
         self.charWidth = 55
         self.charHeight = 54
+        self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
         self.xframe, self.yframe = 0, 0
         self.arrow_list = []
         self.event_que = []
@@ -39,11 +40,16 @@ class Player:
     def stage_init(self):
         self.x, self.y = 250, 0
         self.life = 1000
+        self.horizon_dir, self.vertic_dir = 0, 0
+        self.vertic_vel = 0
+        self.horizon_vel = 0
+        self.cur_state = IdleState
 
     def draw(self):
         self.cur_state.draw(self)
         for arrow in self.arrow_list:
             arrow.draw()
+        self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight + 20, str(self.life), (255, 0, 0))
 
     def update(self):
         self.cur_state.do(self)
@@ -75,7 +81,7 @@ class Player:
             self.atk += int(self.atk ** 0.7) + 3
 
     def attack(self, event):
-        self.arrow_list.insert(0, Arrow(event, self.x, self.y))
+        self.arrow_list.insert(0, Arrow(event, self.x + self.charWidth / 2, self.y + self.charHeight / 2))
         pass
 
 

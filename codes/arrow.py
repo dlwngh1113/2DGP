@@ -4,6 +4,7 @@ from pico2d import *
 class Arrow:
     image = None
     frame = None
+    gradient = None
 
     def __init__(self, event, x, y):
         self.x = x
@@ -11,8 +12,11 @@ class Arrow:
         self.target_x = event.x
         self.target_y = 750 - event.y
         self.velocity = 0
-        self.gradient = (self.target_x - self.x) / (self.target_y - self.y)
-        if -1 < self.gradient < 1:
+        if self.target_y - self.y != 0:
+            Arrow.gradient = (self.target_x - self.x) / (self.target_y - self.y)
+        else:
+            Arrow.gradient = 0.1
+        if -1 < Arrow.gradient < 1:
             self.frame = 4
         else:
             self.frame = 2

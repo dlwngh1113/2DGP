@@ -19,6 +19,7 @@ key_event_table = {
 class Golem:
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\golem image.png')
+        self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
         self.x, self.y = random.randint(0, 500), random.randint(0, 700)
         self.horizon_dir, self.vertic_dir = 0, 0
         self.velocity = 2
@@ -26,7 +27,7 @@ class Golem:
         self.charHeight = 32
         self.drop_money = 30
         self.atk = 50
-        self.health = 1000
+        self.life = 1000
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = IdleState
@@ -34,6 +35,7 @@ class Golem:
 
     def draw(self):
         self.cur_state.draw(self)
+        self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight, str(self.life), (255, 0, 0))
 
     def update(self):
         self.cur_state.do(self)
