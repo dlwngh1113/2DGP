@@ -18,10 +18,22 @@ ghost_swarm = []
 
 def enter():
     global image, timer, map
-    start_state.player.stage_init()
+    game_framework.player.stage_init()
     map = Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt')
     timer = 1000
     pass
+
+
+def collide(a, b):
+    # fill here
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+    return True
 
 
 def exit():
@@ -30,8 +42,8 @@ def exit():
         golem_swarm.pop()
     while len(ghost_swarm) > 0:
         ghost_swarm.pop()
-    while len(start_state.player.arrow_list) > 0:
-        start_state.player.arrow_list.pop()
+    while len(game_framework.player.arrow_list) > 0:
+        game_framework.player.arrow_list.pop()
     pass
 
 
@@ -43,15 +55,15 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.pop_state()
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-            start_state.player.attack(event)
+            game_framework.player.attack(event)
         else:
-            start_state.player.handle_event(event)
+            game_framework.player.handle_event(event)
     pass
 
 
 def update():
     global golem_swarm, ghost_swarm, timer
-    start_state.player.update()
+    game_framework.player.update()
     for golem in golem_swarm:
         golem.update()
     for ghost in ghost_swarm:
@@ -70,7 +82,7 @@ def draw():
     global image, golem_swarm, ghost_swarm, map
     clear_canvas()
     map.draw()
-    start_state.player.draw()
+    game_framework.player.draw()
     for golem in golem_swarm:
         golem.draw()
     for ghost in ghost_swarm:

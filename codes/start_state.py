@@ -2,11 +2,9 @@ from pico2d import *
 import game_framework
 import stage_state
 import item_state
-from player import Player
 
 name = "StartState"
 image = None
-player = None
 money_font = None
 
 
@@ -14,7 +12,6 @@ def enter():
     global image, player, money_font
     money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
     image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\main page.png')
-    player = Player()
     pass
 
 
@@ -46,7 +43,7 @@ def draw():
     global image, player, money_font
     clear_canvas()
     image.clip_draw(0, 0, game_framework.Width, game_framework.Height, game_framework.Width / 2, game_framework.Height / 2)
-    money_font.draw(325, 730, str(player.money), (255, 255, 51))
+    money_font.draw(325, 730, str(game_framework.player.money), (255, 255, 51))
     update_canvas()
 
 

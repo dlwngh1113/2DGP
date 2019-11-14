@@ -1,6 +1,6 @@
 from pico2d import *
 import random
-import start_state
+import game_framework
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, UPSIDE_DOWN, UPSIDE_UP, DOWNSIDE_DOWN, DOWNSIDE_UP = range(8)
 
@@ -66,11 +66,11 @@ class IdleState:
     @staticmethod
     def do(monster):
         monster.xframe = (monster.xframe + 1) % 3
-        if monster.x < start_state.player.x:
+        if monster.x < game_framework.player.x:
             monster.x += monster.velocity
         else:
             monster.x -= monster.velocity
-        if monster.y < start_state.player.y:
+        if monster.y < game_framework.player.y:
             monster.y += monster.velocity
         else:
             monster.y -= monster.velocity

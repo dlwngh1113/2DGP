@@ -1,3 +1,5 @@
+from player import Player
+
 class GameState:
     def __init__(self, state):
         self.enter = state.enter
@@ -40,6 +42,7 @@ class TestGameState:
 
 running = None
 stack = None
+player = None
 Width, Height = 550, 750
 
 
