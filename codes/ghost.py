@@ -4,6 +4,17 @@ import game_framework
 
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, UPSIDE_DOWN, UPSIDE_UP, DOWNSIDE_DOWN, DOWNSIDE_UP = range(8)
 
+PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+RUN_SPEED_KMPH = 15.0  # Km / Hour
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+# Boy Action Speed
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 4
+
 key_event_table = {
     (SDL_KEYDOWN, SDLK_a): LEFT_DOWN,
     (SDL_KEYDOWN, SDLK_d): RIGHT_DOWN,
@@ -20,7 +31,7 @@ class Ghost:
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\ghost image.png')
         self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
-        self.x, self.y = random.randint(0, 500), random.randint(0, 700)
+        self.x, self.y = random.randint(0, 500), random.randint(300, 700)
         self.horizon_dir, self.vertic_dir = 0, 0
         self.velocity = 4
         self.charWidth = 33
@@ -71,7 +82,7 @@ class IdleState:
 
     @staticmethod
     def do(monster):
-        monster.xframe = (monster.xframe + 1) % 3
+        monster.xframe = (monster.xframe + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
         if monster.x < game_framework.player.x:
             monster.x += monster.velocity
         else:
@@ -83,7 +94,7 @@ class IdleState:
 
     @staticmethod
     def draw(monster):
-        monster.image.clip_draw_to_origin(monster.charWidth * monster.xframe, monster.charHeight * (monster.yframe + 4),
+        monster.image.clip_draw_to_origin(monster.charWidth * int(monster.xframe), monster.charHeight * (monster.yframe + 4),
                                           monster.charWidth,
                                           monster.charHeight, monster.x, monster.y, monster.charWidth * 1.5,
                                           monster.charHeight * 1.5)

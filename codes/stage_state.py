@@ -8,17 +8,20 @@ from map import Map
 
 name = "StageState"
 image = None
-timer = None
 map = None
 golem_swarm = []
 ghost_swarm = []
 
 
 def enter():
-    global image, timer, map
+    global image, map
     game_framework.player.stage_init()
-    map = Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt')
-    timer = 1000
+    game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
+    for i in range(10):
+        if random.randint(0, 100) < 50:
+            game_world.add_object(Golem(), 1)
+        else:
+            game_world.add_object(Ghost(), 1)
     pass
 
 
@@ -60,32 +63,18 @@ def handle_events():
 
 
 def update():
-    global golem_swarm, ghost_swarm, timer
+    for game_object in game_world.all_objects():
+        game_object.update()
     game_framework.player.update()
-    for golem in golem_swarm:
-        golem.update()
-    for ghost in ghost_swarm:
-        ghost.update()
-    if timer == 0:
-        if random.randint(0, 100) < 50:
-            golem_swarm.insert(0, Golem())
-        else:
-            ghost_swarm.insert(0, Ghost())
-        timer = 1000
-    timer -= 100
     pass
 
 
 def draw():
-    global image, golem_swarm, ghost_swarm, map
     clear_canvas()
-    map.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     game_framework.player.draw()
-    for golem in golem_swarm:
-        golem.draw()
-    for ghost in ghost_swarm:
-        ghost.draw()
-    delay(0.1)
+    delay(0.05)
     update_canvas()
 
 

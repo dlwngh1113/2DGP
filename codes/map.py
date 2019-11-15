@@ -17,3 +17,6 @@ class Map:
                     self.tile_image.clip_draw(0, self.map_source[i][j] * 32, 32, 32, (j + 0.5) * self.SIZE,
                                               (len(self.map_source) - i) * self.SIZE - self.SIZE // 2, self.SIZE, self.SIZE)
         pass
+
+    def update(self):
+        pass
