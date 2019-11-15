@@ -1,11 +1,9 @@
 from pico2d import *
 import game_framework
-import item_state
-import start_state
+import game_world
 from golem import Golem
 from ghost import Ghost
 import random
-import arrow
 from map import Map
 
 name = "StageState"
