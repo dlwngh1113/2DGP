@@ -46,6 +46,10 @@ class Ghost:
     def handle_event(self, event):
         pass
 
+    def get_bb(self):
+        return self.x - self.charWidth / 2, self.y - self.charHeight / 2, \
+               self.x + self.charWidth / 2, self.y + self.charHeight / 2
+
 
 class VerticMove:
     pass

@@ -84,6 +84,10 @@ class Player:
         self.arrow_list.insert(0, Arrow(event, self.x + self.charWidth / 2, self.y + self.charHeight / 2))
         pass
 
+    def get_bb(self):
+        return self.x - self.charWidth / 2, self.y - self.charHeight / 2, \
+               self.x + self.charWidth / 2, self.y + self.charHeight / 2
+
 
 class VerticMove:
     @staticmethod
