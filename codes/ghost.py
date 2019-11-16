@@ -47,6 +47,7 @@ class Ghost:
     def draw(self):
         self.cur_state.draw(self)
         self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight * 1.5, str(self.life), (255, 0, 0))
+        draw_rectangle(*self.get_bb())
 
     def update(self):
         self.cur_state.do(self)
@@ -58,8 +59,7 @@ class Ghost:
         pass
 
     def get_bb(self):
-        return self.x - self.charWidth / 2, self.y - self.charHeight / 2, \
-               self.x + self.charWidth / 2, self.y + self.charHeight / 2
+        return self.x + 10, self.y, self.x + self.charWidth + 10, self.y + self.charHeight + 10
 
 
 class VerticMove:

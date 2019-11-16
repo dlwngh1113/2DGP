@@ -51,6 +51,7 @@ class Player:
         for arrow in self.arrow_list:
             arrow.draw()
         self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight + 20, str(self.life), (255, 0, 0))
+        draw_rectangle(*self.get_bb())
 
     def update(self):
         self.cur_state.do(self)
@@ -86,8 +87,7 @@ class Player:
         pass
 
     def get_bb(self):
-        return self.x - self.charWidth / 2, self.y - self.charHeight / 2, \
-               self.x + self.charWidth / 2, self.y + self.charHeight / 2
+        return self.x, self.y + 10, self.x + self.charWidth, self.y + self.charHeight + 10
 
 
 class VerticMove:

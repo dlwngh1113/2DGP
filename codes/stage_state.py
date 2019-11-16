@@ -38,11 +38,10 @@ def collide(a, b):
 
 
 def exit():
-    global image, golem_swarm, ghost_swarm
-    while len(golem_swarm) > 0:
-        golem_swarm.pop()
-    while len(ghost_swarm) > 0:
-        ghost_swarm.pop()
+    global monsters
+    while len(monsters) > 0:
+        monsters.clear()
+    game_world.clear()
     while len(game_framework.player.arrow_list) > 0:
         game_framework.player.arrow_list.pop()
     pass
