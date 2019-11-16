@@ -28,6 +28,7 @@ class Player:
         self.horizon_vel = 0
         self.Isvertic = False
         self.Ishorizon = False
+        self.Isinvincible = False
         self.charWidth = 55
         self.charHeight = 54
         self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)

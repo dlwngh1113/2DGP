@@ -9,8 +9,7 @@ from map import Map
 name = "StageState"
 image = None
 map = None
-golem_swarm = []
-ghost_swarm = []
+monsters = []
 
 
 def enter():
@@ -19,9 +18,10 @@ def enter():
     game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
     for i in range(10):
         if random.randint(0, 100) < 50:
-            game_world.add_object(Golem(), 1)
+            monsters.append(Golem())
         else:
-            game_world.add_object(Ghost(), 1)
+            monsters.append(Ghost())
+    game_world.add_objects(monsters, 1)
     pass
 
 
@@ -66,6 +66,14 @@ def update():
     for game_object in game_world.all_objects():
         game_object.update()
     game_framework.player.update()
+    for monster in monsters:
+        if monster.life <= 0:
+            game_world.remove_object(monster)
+        for arrow in game_framework.player.arrow_list:
+            if collide(monster, arrow):
+                game_framework.player.arrow_list.remove(arrow)
+                monster.life -= game_framework.player.atk
+
     pass
 
 

@@ -37,5 +37,8 @@ class Arrow:
             self.velocity += 10
         pass
 
+    def get_bb(self):
+        return self.x - 10, self.y - 10, self.x + 10, self.y + 10
+
     def handle_event(self):
         pass
