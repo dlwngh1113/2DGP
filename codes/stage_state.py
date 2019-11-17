@@ -5,6 +5,7 @@ from golem import Golem
 from ghost import Ghost
 import random
 from map import Map
+import dead_state
 
 name = "StageState"
 image = None
@@ -68,6 +69,7 @@ def update():
     for monster in monsters:
         if monster.life <= 0:
             game_world.remove_object(monster)
+            game_framework.player.money += monster.money
         for arrow in game_framework.player.arrow_list:
             if collide(monster, arrow):
                 game_framework.player.arrow_list.remove(arrow)
@@ -78,6 +80,8 @@ def update():
                 game_framework.player.invincible_time = get_time()
                 game_framework.player.life -= monster.atk
                 game_framework.player.Isinvincible = True
+    if game_framework.player.life <= 0:
+        game_framework.change_state(dead_state)
         pass
     pass
 

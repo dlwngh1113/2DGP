@@ -36,7 +36,7 @@ class Golem:
         self.velocity = 2
         self.charWidth = 33
         self.charHeight = 32
-        self.drop_money = 30
+        self.money = 30
         self.atk = 50
         self.life = 1000
         self.xframe, self.yframe = 0, 0

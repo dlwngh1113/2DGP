@@ -36,7 +36,7 @@ class Ghost:
         self.velocity = 4
         self.charWidth = 33
         self.charHeight = 32
-        self.money = 30
+        self.money = 50
         self.atk = 30
         self.life = 500
         self.xframe, self.yframe = 0, 0
