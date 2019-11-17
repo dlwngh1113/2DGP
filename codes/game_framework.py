@@ -1,4 +1,4 @@
-from player import Player
+from player import *
 import time
 
 class GameState:

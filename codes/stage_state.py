@@ -72,7 +72,13 @@ def update():
             if collide(monster, arrow):
                 game_framework.player.arrow_list.remove(arrow)
                 monster.life -= game_framework.player.atk
-
+    if not game_framework.player.Isinvincible:
+        for monster in monsters:
+            if collide(monster, game_framework.player):
+                game_framework.player.invincible_time = get_time()
+                game_framework.player.life -= monster.atk
+                game_framework.player.Isinvincible = True
+        pass
     pass
 
 

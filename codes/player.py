@@ -19,6 +19,8 @@ key_event_table = {
 class Player:
     money = 0
     atk = 50
+    invincible_time = 0.0
+
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
         self.x, self.y = 300, 300
@@ -64,6 +66,8 @@ class Player:
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
+        if get_time() - Player.invincible_time > 2.0 and self.Isinvincible:
+            self.Isinvincible = False
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -232,9 +236,9 @@ class IdleState:
 
 next_state_table = {
     IdleState: {RIGHT_UP: IdleState, RIGHT_DOWN: HorizonMove,
-                  UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
-                  LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
-                  DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove},
+                UPSIDE_UP: IdleState, UPSIDE_DOWN: VerticMove,
+                LEFT_UP: IdleState, LEFT_DOWN: HorizonMove,
+                DOWNSIDE_UP: IdleState, DOWNSIDE_DOWN: VerticMove},
     HorizonMove: {RIGHT_UP: HorizonMove, RIGHT_DOWN: HorizonMove,
                   UPSIDE_UP: VerticMove, UPSIDE_DOWN: VerticMove,
                   LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
