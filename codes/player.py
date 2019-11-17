@@ -19,7 +19,6 @@ key_event_table = {
 class Player:
     money = 0
     atk = 50
-    invincible_time = 0.0
 
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
@@ -33,6 +32,7 @@ class Player:
         self.Isinvincible = False
         self.charWidth = 55
         self.charHeight = 54
+        self.invincible_time = 0.0
         self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
         self.xframe, self.yframe = 0, 0
         self.arrow_list = []
@@ -66,8 +66,10 @@ class Player:
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
-        if get_time() - Player.invincible_time > 2.0 and self.Isinvincible:
-            self.Isinvincible = False
+        if self.Isinvincible:
+            if get_time() - self.invincible_time > 2.0:
+                print(self.invincible_time, get_time())
+                self.Isinvincible = False
 
     def add_event(self, event):
         self.event_que.insert(0, event)
