@@ -67,13 +67,15 @@ def update():
         game_object.update()
     game_framework.player.update()
     for monster in monsters:
-        if monster.life <= 0:
-            game_world.remove_object(monster)
-            game_framework.player.money += monster.money
         for arrow in game_framework.player.arrow_list:
             if collide(monster, arrow):
                 game_framework.player.arrow_list.remove(arrow)
                 monster.life -= game_framework.player.atk
+                if monster.life <= 0:
+                    monsters.remove(monster)
+                    game_world.remove_object(monster)
+                    game_framework.player.money += monster.money
+                    print(game_framework.player.money)
     if not game_framework.player.Isinvincible:
         for monster in monsters:
             if collide(monster, game_framework.player):

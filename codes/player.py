@@ -17,7 +17,7 @@ key_event_table = {
 
 
 class Player:
-    money = 0
+    money = 1000
     atk = 50
 
     def __init__(self):
