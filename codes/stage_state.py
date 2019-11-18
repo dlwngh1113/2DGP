@@ -9,13 +9,10 @@ import dead_state
 import boss_stage
 
 name = "StageState"
-image = None
-map = None
 monsters = []
 
 
 def enter():
-    global image, map
     game_framework.player.stage_init()
     game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
     for i in range(10):

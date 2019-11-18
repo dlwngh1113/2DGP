@@ -1,22 +1,26 @@
 import game_framework
 from pico2d import *
+import game_world
+from chasha import Chasha
+from map import Map
+
+boss = None
+
 
 def enter():
-    global image, player, money_font
-    money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
-    image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\main page.png')
+    global boss
+    boss = Chasha()
+    game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
     pass
 
 
 def exit():
-    global image, money_font
-    del money_font
-    del image
     pass
 
 
 def handle_events():
     pass
+
 
 def update():
     pass
@@ -24,6 +28,9 @@ def update():
 
 def draw():
     clear_canvas()
+    for game_object in game_world.all_objects():
+        game_object.draw()
+    game_framework.player.draw()
     update_canvas()
 
 
