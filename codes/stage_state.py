@@ -6,6 +6,7 @@ from ghost import Ghost
 import random
 from map import Map
 import dead_state
+import boss_stage
 
 name = "StageState"
 image = None
@@ -84,7 +85,8 @@ def update():
                 game_framework.player.Isinvincible = True
     if game_framework.player.life <= 0:
         game_framework.change_state(dead_state)
-        pass
+    if len(monsters) == 0:
+        game_framework.push_state(boss_stage)
     pass
 
 
