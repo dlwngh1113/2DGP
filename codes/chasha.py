@@ -1,6 +1,7 @@
 from pico2d import *
 import random
 import game_framework
+from BehaviorTree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 
 class Chasha:
