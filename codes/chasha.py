@@ -4,7 +4,7 @@ import game_framework
 from BehaviorTree import BehaviorTree, SelectorNode, SequenceNode, LeafNode
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 15.0  # Km / Hour
+RUN_SPEED_KMPH = 20.0  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -18,7 +18,7 @@ class Chasha:
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\chasha.png')
         self.x, self.y = 250, 600
-        self.velocity = 2
+        self.velocity = 1
         self.charWidth = 33
         self.charHeight = 32
         self.drop_money = 2356
@@ -55,6 +55,8 @@ class Swerving:
 
     @staticmethod
     def do(monster):
+        if monster.level <= 1:
+            del monster
         pass
 
     @staticmethod
