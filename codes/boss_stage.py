@@ -15,6 +15,9 @@ def enter():
 
 
 def exit():
+    global boss
+    game_world.remove_object(boss)
+    del boss
     pass
 
 
