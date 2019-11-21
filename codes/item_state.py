@@ -34,6 +34,8 @@ def draw():
     money_font.draw(325, 725, str(game_framework.player.money), (255, 255, 51))
     atk_font.draw(250, 225, 'atk = ' + str(game_framework.player.atk), (255, 0, 0))
     cost_font.draw(325, 150, str(cost))
+    draw_rectangle(240, 100, 430, 170)
+    draw_rectangle(270, 0, 360, 70)
     update_canvas()
 
 
@@ -49,16 +51,18 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.pop_state()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:
             game_framework.player.money += 100000
         elif event.type == SDL_MOUSEMOTION:
-            x, y = event.x, 750 - event.y + 1
+            x, y = event.x, 750 - event.y - 1
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-            if 180 < x < 250 and 70 < y < 100:
+            print(x, y)
+            if 240 < x < 420 and 100 < y < 160:
                 if game_framework.player.money > cost:
                     game_framework.player.reinforce(cost)
+            elif 270 < x < 360 and 0 < y < 70:
+                game_framework.pop_state()
+
 
 
 def pause():

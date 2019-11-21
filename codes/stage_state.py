@@ -83,7 +83,7 @@ def update():
     if game_framework.player.life <= 0:
         game_framework.change_state(dead_state)
     if len(monsters) == 0:
-        game_framework.push_state(boss_stage)
+        game_framework.change_state(boss_stage)
     pass
 
 

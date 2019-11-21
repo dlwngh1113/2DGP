@@ -18,7 +18,7 @@ key_event_table = {
 
 class Player:
     money = 1000
-    atk = 50
+    atk = 1000
 
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
