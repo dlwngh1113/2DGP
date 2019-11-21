@@ -1,15 +1,13 @@
 from pico2d import *
 import game_framework
 import start_state
-from button import Button
 
 image = None
 money_font = None
 atk_font = None
 cost_font = None
 cost = None
-reinforce_button = Button(250, 100, 180, 70)
-
+x, y = 0, 0
 
 def enter():
     global image, money_font, atk_font, cost_font, cost, reinforce_button
@@ -18,7 +16,6 @@ def enter():
     cost_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
     cost = game_framework.player.atk * 10
     image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\item page.png')
-    reinforce_button = Button(250, 100, 180, 70)
 
 
 def exit():
@@ -28,17 +25,6 @@ def exit():
     del cost_font
     del cost
     del image
-    del reinforce_button
-
-
-def collide(button, event):
-    left_a, bottom_a, right_a, top_a = button.get_bb()
-
-    if left_a < event.x < right_a: return False
-    if bottom_a < event.y < top_a: return False
-
-    return True
-
 
 def draw():
     global image, money_font, atk_font, cost
@@ -48,7 +34,6 @@ def draw():
     money_font.draw(325, 725, str(game_framework.player.money), (255, 255, 51))
     atk_font.draw(250, 225, 'atk = ' + str(game_framework.player.atk), (255, 0, 0))
     cost_font.draw(325, 150, str(cost))
-    reinforce_button.draw()
     update_canvas()
 
 
@@ -59,6 +44,7 @@ def update():
 
 
 def handle_events():
+    global x, y
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -67,9 +53,12 @@ def handle_events():
             game_framework.pop_state()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_LSHIFT:
             game_framework.player.money += 100000
-        elif collide(reinforce_button, event):
-            if game_framework.player.money > cost:
-                game_framework.player.reinforce(cost)
+        elif event.type == SDL_MOUSEMOTION:
+            x, y = event.x, 750 - event.y + 1
+        elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
+            if 180 < x < 250 and 70 < y < 100:
+                if game_framework.player.money > cost:
+                    game_framework.player.reinforce(cost)
 
 
 def pause():

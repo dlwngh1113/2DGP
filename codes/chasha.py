@@ -23,12 +23,15 @@ class Chasha:
         self.charHeight = 32
         self.drop_money = 2356
         self.atk = 50
+        self.timer = 1.0
+        self.speed = 0
         self.level = 4
         self.health = self.level * 500
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = Swerving
         self.cur_state.enter(self, None)
+        self.build_behavior_tree()
 
     def draw(self):
         self.cur_state.draw(self)
@@ -42,6 +45,26 @@ class Chasha:
     def handle_event(self, event):
         pass
 
+    def build_behavior_tree(self):
+        wander_node = LeafNode("WanderNode", self.wander)
+        self.bt = BehaviorTree(wander_node)
+        pass
+
+    def wander(self):
+        # fill here
+        self.speed = RUN_SPEED_PPS
+        self.calculate_current_position()
+        self.timer -= game_framework.frame_time
+        if self.timer < 0:
+            self.timer += 1.0
+            self.dir = random.random() * 2 * math.pi
+        clamp(25, self.x, 500)
+        clamp(25, self.y, 700)
+        return BehaviorTree.SUCCESS
+        pass
+
+    def get_bb(self):
+        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
 
 class Swerving:
     @staticmethod
