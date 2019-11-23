@@ -3,7 +3,7 @@ import math
 
 WIDTH, HEIGHT = 550, 750
 open_canvas(WIDTH, HEIGHT)
-selfmap_source = []
+map_list = []
 SIZE = 50
 select_num = 1
 tile_image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\tile_sheet.png')
@@ -11,7 +11,7 @@ tile_image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resour
 
 
 def load():
-    global selfmap_source, HEIGHT, SIZE
+    global map_list, HEIGHT, SIZE
     filename = 'map1.txt'
     with open(filename) as data:
         map_list = [[int(i) for i in line.split()] for line in data.readlines()]
@@ -26,7 +26,7 @@ def load_stage(filename):
 
 
 def save():
-    global selfmap_source
+    global map_list
     f = open('map1.txt', 'w')
     for i in range(len(map_list)):
         for j in range(len(map_list[i])):
@@ -39,7 +39,7 @@ def save():
 
 
 def print_ary():
-    global selfmap_source
+    global map_list
     for i in range(len(map_list)):
         for j in range(len(map_list[i])):
             print(map_list[i][j], end=' ')
@@ -47,7 +47,7 @@ def print_ary():
 
 
 def handle_events():
-    global SIZE, selfmap_source, WIDTH, HEIGHT, select_num
+    global SIZE, map_list, WIDTH, HEIGHT, select_num
     events = get_events()
     for event in events:
         if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
@@ -73,7 +73,7 @@ def handle_events():
 
 
 def draw():
-    global selfmap_source, tile_image, SIZE, HEIGHT
+    global map_list, tile_image, SIZE, HEIGHT
     for i in range(len(map_list)):
         for j in range(len(map_list[i])):
             if map_list[i][j] != 0:
@@ -82,7 +82,7 @@ def draw():
 
 
 def init():
-    global selfmap_source
+    global map_list
     for i in range(15):
         line = []
         for j in range(11):
