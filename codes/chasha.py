@@ -42,6 +42,7 @@ class Chasha:
                              self.charWidth, self.charHeight, self.x, self.y)
 
     def update(self):
+        self.bt.run()
         pass
 
     def add_event(self, event):
@@ -69,4 +70,4 @@ class Chasha:
         pass
 
     def get_bb(self):
-        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
+        return self.x - self.charWidth, self.y - self.charHeight, self.x + self.charWidth, self.y + self.charHeight

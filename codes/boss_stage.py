@@ -34,6 +34,7 @@ def handle_events():
 
 
 def update():
+    game_framework.player.update()
     pass
 
 
