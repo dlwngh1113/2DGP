@@ -55,10 +55,10 @@ class Player:
     def stage_init(self):
         self.x, self.y = 250, 0
         self.life = 1000
-        self.horizon_dir, self.vertic_dir = 0, 0
+        self.horizon_dir, self.vertic_dir = 0, 1
         self.vertic_vel = 0
         self.horizon_vel = 0
-        self.cur_state = IdleState
+        self.cur_state = HorizonMove
 
     def draw(self):
         self.cur_state.draw(self)
@@ -177,8 +177,6 @@ class HorizonMove:
         elif event == UPSIDE_UP:
             #player.vertic_vel -= 1
             player.vertic_vel -= RUN_SPEED_PPS
-            if player.Ishorizon:
-                player.add_event(HorizonMove)
         if event == DOWNSIDE_DOWN:
             #player.vertic_vel -= 1
             player.vertic_vel -= RUN_SPEED_PPS
@@ -186,8 +184,6 @@ class HorizonMove:
         elif event == DOWNSIDE_UP:
             #player.vertic_vel += 1
             player.vertic_vel += RUN_SPEED_PPS
-            if player.Ishorizon:
-                player.add_event(HorizonMove)
 
     @staticmethod
     def exit(player, event):
@@ -257,9 +253,9 @@ next_state_table = {
                 LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
                 DOWNSIDE_UP: HorizonMove, DOWNSIDE_DOWN: HorizonMove},
     HorizonMove: {RIGHT_UP: HorizonMove, RIGHT_DOWN: HorizonMove,
-                  UPSIDE_UP: VerticMove, UPSIDE_DOWN: VerticMove,
+                  UPSIDE_UP: HorizonMove, UPSIDE_DOWN: HorizonMove,
                   LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
-                  DOWNSIDE_UP: VerticMove, DOWNSIDE_DOWN: VerticMove},
+                  DOWNSIDE_UP: HorizonMove, DOWNSIDE_DOWN: HorizonMove},
     VerticMove: {UPSIDE_UP: VerticMove, UPSIDE_DOWN: VerticMove,
                  LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
                  DOWNSIDE_UP: VerticMove, DOWNSIDE_DOWN: VerticMove,
