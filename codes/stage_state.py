@@ -40,7 +40,7 @@ def collide(a, b):
 def exit():
     global monsters
     while len(monsters) > 0:
-        monsters.clear()
+        monsters.pop()
     game_world.clear()
     while len(game_framework.player.arrow_list) > 0:
         game_framework.player.arrow_list.pop()
