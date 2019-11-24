@@ -6,10 +6,11 @@ import item_state
 name = "StartState"
 image = None
 money_font = None
+x, y = None, None
 
 
 def enter():
-    global image, player, money_font
+    global image, money_font
     money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
     image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\main page.png')
     pass
@@ -23,16 +24,21 @@ def exit():
 
 
 def handle_events():
+    global x, y
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_i:
-            game_framework.push_state(item_state)
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_s:
-            game_framework.push_state(stage_state)
+        elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
+            print(x, y)
+            if 165 < x < 380 and 140 < y < 220:
+                game_framework.push_state(stage_state)
+            elif 90 < x < 180 and 0 < y <70:
+                game_framework.push_state(item_state)
+        elif event.type == SDL_MOUSEMOTION:
+            x, y = event.x, 750 - event.y + 1
     pass
 
 def update():
@@ -44,6 +50,8 @@ def draw():
     clear_canvas()
     image.clip_draw(0, 0, game_framework.Width, game_framework.Height, game_framework.Width / 2, game_framework.Height / 2)
     money_font.draw(325, 730, str(game_framework.player.money), (255, 255, 51))
+    draw_rectangle(165, 140, 380, 220)
+    draw_rectangle(90, 0, 180, 70)
     update_canvas()
 
 

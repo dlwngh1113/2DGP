@@ -7,6 +7,7 @@ import random
 from map import Map
 import dead_state
 import boss_stage
+import start_state
 
 name = "StageState"
 monsters = []
@@ -52,7 +53,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.pop_state()
+            game_framework.change_state(start_state)
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             game_framework.player.attack(event)
         else:
@@ -80,10 +81,10 @@ def update():
                 game_framework.player.invincible_time = get_time()
                 game_framework.player.life -= monster.atk
                 game_framework.player.Isinvincible = True
-    if game_framework.player.life <= 0:
-        game_framework.change_state(dead_state)
     if len(monsters) == 0:
         game_framework.change_state(boss_stage)
+    if game_framework.player.life <= 0:
+        game_framework.change_state(dead_state)
     pass
 
 

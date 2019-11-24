@@ -17,7 +17,7 @@ key_event_table = {
 }
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 25.0  # Km / Hour
+RUN_SPEED_KMPH = 20.0  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -36,29 +36,26 @@ class Player:
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
         self.x, self.y = 300, 300
         self.life = 1000
-        self.horizon_dir, self.vertic_dir = 0, 1
+        self.dir = 0
         self.vertic_vel = 0
         self.horizon_vel = 0
-        self.Isvertic = False
-        self.Ishorizon = False
         self.Isinvincible = False
         self.charWidth = 55
         self.charHeight = 54
         self.invincible_time = 0.0
         self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
-        self.xframe, self.yframe = 0, 0
+        self.frame = 0
         self.arrow_list = []
         self.event_que = []
-        self.cur_state = HorizonMove
+        self.cur_state = MovingState
         self.cur_state.enter(self, None)
 
     def stage_init(self):
         self.x, self.y = 250, 0
         self.life = 1000
-        self.horizon_dir, self.vertic_dir = 0, 1
         self.vertic_vel = 0
         self.horizon_vel = 0
-        self.cur_state = HorizonMove
+        self.cur_state = MovingState
 
     def draw(self):
         self.cur_state.draw(self)
@@ -69,15 +66,15 @@ class Player:
 
     def update(self):
         self.cur_state.do(self)
-        for arrow in self.arrow_list:
-            arrow.update()
-            if arrow.x > 550 or arrow.x < 0 or arrow.y > 750 or arrow.y < 0 or arrow.velocity >= 100:
-                self.arrow_list.remove(arrow)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
+        for arrow in self.arrow_list:
+            arrow.update()
+            if arrow.x > 550 or arrow.x < 0 or arrow.y > 750 or arrow.y < 0 or arrow.velocity >= 100:
+                self.arrow_list.remove(arrow)
         if self.Isinvincible:
             if get_time() - self.invincible_time > 2.0:
                 print(self.invincible_time, get_time())
@@ -108,81 +105,29 @@ class Player:
         return self.x, self.y + 10, self.x + self.charWidth, self.y + self.charHeight + 10
 
 
-class VerticMove:
-    @staticmethod
-    def enter(player, event):
-        if event == UPSIDE_DOWN:
-            player.vertic_dir = 2
-            player.vertic_vel += 1
-            player.Isvertic = True
-        elif event == DOWNSIDE_DOWN:
-            player.vertic_dir = 2
-            player.vertic_vel -= 1
-            player.Isvertic = True
-        elif event == UPSIDE_UP:
-            player.vertic_dir -= 1
-            player.vertic_vel -= 1
-            player.Isvertic = False
-        elif event == DOWNSIDE_UP:
-            player.vertic_dir += 1
-            player.vertic_vel += 1
-            player.Isvertic = False
-
-    @staticmethod
-    def exit(player, event):
-        pass
-
-    @staticmethod
-    def do(player):
-        player.yframe = (player.yframe + 1) % 5
-        player.y += player.vertic_vel * player.vertic_dir * 10
-        player.y = clamp(-25, player.y, 700)
-
-    @staticmethod
-    def draw(player):
-        if player.vertic_dir * player.vertic_vel > 0:
-            player.image.clip_draw_to_origin(player.charWidth * 4, player.charHeight * (player.yframe + 4),
-                                             player.charWidth, player.charHeight, player.x, player.y,
-                                             player.charWidth * 1.5, player.charHeight * 1.5)
-        else:
-            player.image.clip_draw_to_origin(player.charWidth * player.xframe, player.charHeight * (player.yframe + 4),
-                                             player.charWidth, player.charHeight, player.x, player.y,
-                                             player.charWidth * 1.5, player.charHeight * 1.5)
-
-
-class HorizonMove:
+class MovingState:
     @staticmethod
     def enter(player, event):
         if event == RIGHT_DOWN:
             player.horizon_vel += RUN_SPEED_PPS
-            #player.horizon_vel += 1
-            player.Ishorizon = True
+            player.dir += 1
         elif event == RIGHT_UP:
-            #player.horizon_vel -= 1
             player.horizon_vel -= RUN_SPEED_PPS
-            player.Ishorizon = False
+            player.dir -= 1
         if event == LEFT_DOWN:
-            #player.horizon_vel -= 1
             player.horizon_vel -= RUN_SPEED_PPS
-            player.Ishorizon = True
+            player.dir -= 1
         elif event == LEFT_UP:
-            #player.horizon_vel += 1
             player.horizon_vel += RUN_SPEED_PPS
-            player.Ishorizon = False
+            player.dir += 1
 
         if event == UPSIDE_DOWN:
-            #player.vertic_vel += 1
             player.vertic_vel += RUN_SPEED_PPS
-            player.Isvertic = True
         elif event == UPSIDE_UP:
-            #player.vertic_vel -= 1
             player.vertic_vel -= RUN_SPEED_PPS
         if event == DOWNSIDE_DOWN:
-            #player.vertic_vel -= 1
             player.vertic_vel -= RUN_SPEED_PPS
-            player.Isvertic = True
         elif event == DOWNSIDE_UP:
-            #player.vertic_vel += 1
             player.vertic_vel += RUN_SPEED_PPS
 
     @staticmethod
@@ -191,73 +136,53 @@ class HorizonMove:
 
     @staticmethod
     def do(player):
-        player.yframe = (player.yframe + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
         player.x += player.horizon_vel * game_framework.frame_time
         player.y += player.vertic_vel * game_framework.frame_time
+        player.x = clamp(25, player.x, 480)
         player.y = clamp(25, player.y, 600)
-        player.x = clamp(-25, player.x, 500)
 
     @staticmethod
     def draw(player):
-        if player.vertic_dir * player.vertic_vel > 0:
-            player.image.clip_draw_to_origin(player.charWidth * 6, player.charHeight * (int(player.yframe) + 4),
+        if player.vertic_vel > 0:
+            player.image.clip_draw_to_origin(player.charWidth * 4,
+                                             player.charHeight * (int(player.frame) + 4),
                                              player.charWidth,
                                              player.charHeight, player.x, player.y, player.charWidth * 1.5,
                                              player.charHeight * 1.5)
+            player.dir = 1
+        elif player.vertic_vel < 0:
+            player.image.clip_draw_to_origin(player.charWidth * 0,
+                                             player.charHeight * (int(player.frame) + 4),
+                                             player.charWidth,
+                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                             player.charHeight * 1.5)
+            player.dir = -1
         else:
-            player.image.clip_draw_to_origin(player.charWidth * 2, player.charHeight * (int(player.yframe) + 4),
-                                             player.charWidth,
-                                             player.charHeight, player.x, player.y, player.charWidth * 1.5,
-                                             player.charHeight * 1.5)
-
-
-class IdleState:
-    @staticmethod
-    def enter(player, event):
-        if event == RIGHT_DOWN:
-            player.horizon_dir = 2
-            player.horizon_vel += 1
-            player.Ishorizon = True
-        elif event == LEFT_DOWN:
-            player.horizon_dir = 2
-            player.horizon_vel -= 1
-            player.Ishorizon = True
-        elif event == RIGHT_UP:
-            player.horizon_dir -= 1
-            player.horizon_vel -= 1
-            player.Ishorizon = False
-        elif event == LEFT_UP:
-            player.horizon_dir += 1
-            player.horizon_vel += 1
-            player.Ishorizon = False
-
-    @staticmethod
-    def exit(player, event):
-        pass
-
-    @staticmethod
-    def do(player):
-        player.yframe = (player.yframe + 1) % 5
-
-    @staticmethod
-    def draw(player):
-        player.image.clip_draw_to_origin(player.charWidth * player.xframe, player.charHeight * (player.yframe + 4),
-                                         player.charWidth,
-                                         player.charHeight, player.x, player.y, player.charWidth * 1.5,
-                                         player.charHeight * 1.5)
+            # if boy vertic_vel == 0
+            if player.horizon_vel > 0 or player.horizon_vel < 0:
+                if player.horizon_vel > 0:
+                    player.image.clip_draw_to_origin(player.charWidth * 6, player.charHeight * (int(player.frame) + 4),
+                                                     player.charWidth,
+                                                     player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                                     player.charHeight * 1.5)
+                else:
+                    player.image.clip_draw_to_origin(player.charWidth * 2, player.charHeight * (int(player.frame) + 4),
+                                                     player.charWidth,
+                                                     player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                                     player.charHeight * 1.5)
+            else:
+                # boy is idle
+                player.image.clip_draw_to_origin(player.charWidth * 0,
+                                                 player.charHeight * (int(player.frame) + 4),
+                                                 player.charWidth,
+                                                 player.charHeight, player.x, player.y, player.charWidth * 1.5,
+                                                 player.charHeight * 1.5)
 
 
 next_state_table = {
-    IdleState: {RIGHT_UP: HorizonMove, RIGHT_DOWN: HorizonMove,
-                UPSIDE_UP: HorizonMove, UPSIDE_DOWN: HorizonMove,
-                LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
-                DOWNSIDE_UP: HorizonMove, DOWNSIDE_DOWN: HorizonMove},
-    HorizonMove: {RIGHT_UP: HorizonMove, RIGHT_DOWN: HorizonMove,
-                  UPSIDE_UP: HorizonMove, UPSIDE_DOWN: HorizonMove,
-                  LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
-                  DOWNSIDE_UP: HorizonMove, DOWNSIDE_DOWN: HorizonMove},
-    VerticMove: {UPSIDE_UP: VerticMove, UPSIDE_DOWN: VerticMove,
-                 LEFT_UP: HorizonMove, LEFT_DOWN: HorizonMove,
-                 DOWNSIDE_UP: VerticMove, DOWNSIDE_DOWN: VerticMove,
-                 RIGHT_UP: HorizonMove, RIGHT_DOWN: HorizonMove}
+    MovingState: {RIGHT_UP: MovingState, RIGHT_DOWN: MovingState,
+                  UPSIDE_UP: MovingState, UPSIDE_DOWN: MovingState,
+                  LEFT_UP: MovingState, LEFT_DOWN: MovingState,
+                  DOWNSIDE_UP: MovingState, DOWNSIDE_DOWN: MovingState}
 }
