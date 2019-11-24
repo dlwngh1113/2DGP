@@ -8,9 +8,11 @@ atk_font = None
 cost_font = None
 cost = None
 x, y = 0, 0
+reinforce_sound = None
 
 def enter():
-    global image, money_font, atk_font, cost_font, cost, reinforce_button
+    global image, money_font, atk_font, cost_font, cost, reinforce_sound
+    reinforce_sound = load_music('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\reinforce result.mp3')
     money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
     atk_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 40)
     cost_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
@@ -19,12 +21,13 @@ def enter():
 
 
 def exit():
-    global image, money_font, atk_font, cost_font, cost, reinforce_button
+    global image, money_font, atk_font, cost_font, cost, reinforce_sound
     del money_font
     del atk_font
     del cost_font
     del cost
     del image
+    del reinforce_sound
 
 def draw():
     global image, money_font, atk_font, cost
@@ -46,7 +49,7 @@ def update():
 
 
 def handle_events():
-    global x, y
+    global x, y, reinforce_sound
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -60,6 +63,7 @@ def handle_events():
             if 240 < x < 420 and 100 < y < 160:
                 if game_framework.player.money > cost:
                     game_framework.player.reinforce(cost)
+                    reinforce_sound.play()
             elif 270 < x < 360 and 0 < y < 70:
                 game_framework.pop_state()
 
