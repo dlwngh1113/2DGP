@@ -52,7 +52,7 @@ class Player:
 
     def stage_init(self):
         self.x, self.y = 250, 0
-        self.life = 1000
+        self.life = 100
         self.vertic_vel = 0
         self.horizon_vel = 0
         self.cur_state = MovingState
@@ -140,7 +140,7 @@ class MovingState:
         player.x += player.horizon_vel * game_framework.frame_time
         player.y += player.vertic_vel * game_framework.frame_time
         player.x = clamp(25, player.x, 480)
-        player.y = clamp(25, player.y, 600)
+        player.y = clamp(25, player.y, 700)
 
     @staticmethod
     def draw(player):

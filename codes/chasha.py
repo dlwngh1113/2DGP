@@ -34,7 +34,8 @@ class Chasha:
         self.timer = 1.0
         self.speed = 0
         self.dir = random.random() * 2 * math.pi
-        self.life = self.level * int(game_framework.player.atk * 10.5)
+        #self.life = self.level * int(game_framework.player.atk * 10.5)
+        self.life = 1000
         self.frame = 0
         self.build_behavior_tree()
 
