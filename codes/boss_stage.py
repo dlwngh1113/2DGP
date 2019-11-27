@@ -1,10 +1,12 @@
 import game_framework
 from pico2d import *
 import game_world
-from chasha import Chasha
-from map import Map
 import start_state
 import dead_state
+
+from chasha import Chasha
+from map import Map
+
 
 boss = []
 
