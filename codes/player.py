@@ -30,7 +30,7 @@ FRAMES_PER_ACTION = 5
 
 class Player:
     money = 1000
-    atk = 1000
+    atk = 100
 
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
