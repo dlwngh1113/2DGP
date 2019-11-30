@@ -27,7 +27,7 @@ def handle_events():
 
 
 def update():
-    if get_time() - timer > 5.0:
+    if get_time() - timer > 4.0:
         game_framework.change_state(start_state)
     pass
 
