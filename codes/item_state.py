@@ -12,7 +12,7 @@ reinforce_sound = None
 
 def enter():
     global image, money_font, atk_font, cost_font, cost, reinforce_sound
-    reinforce_sound = load_music('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\reinforce result.mp3')
+    reinforce_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\reinforce result.mp3')
     money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
     atk_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 40)
     cost_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
