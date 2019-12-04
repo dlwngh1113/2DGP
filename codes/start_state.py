@@ -13,7 +13,7 @@ main_music = None
 def enter():
     global image, money_font, main_music
     main_music = load_music('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\main background sound.mp3')
-    main_music.set_volume(20)
+    main_music.set_volume(60)
     main_music.repeat_play()
     money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
     image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\main page.png')
