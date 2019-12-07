@@ -9,6 +9,7 @@ from map import Map
 
 
 boss = []
+hit_sound = None
 
 def collide(a, b):
     # fill here
@@ -22,19 +23,22 @@ def collide(a, b):
     return True
 
 def enter():
-    global boss
+    global boss, hit_sound
     boss.append(Chasha(3))
     game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
+    hit_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\hit sound.ogg')
+    hit_sound.set_volume(40)
     pass
 
 
 def exit():
-    global boss
+    global boss, hit_sound
     while len(boss) > 0:
         boss.pop()
     while len(game_framework.player.arrow_list):
         game_framework.player.arrow_list.pop()
     game_world.clear()
+    del hit_sound
     pass
 
 
@@ -51,7 +55,7 @@ def handle_events():
 
 
 def update():
-    global boss
+    global boss, hit_sound
     for game_object in game_world.all_objects():
         game_object.update()
     for bosses in boss:
@@ -65,6 +69,7 @@ def update():
             if collide(arrow, bosses):
                 bosses.life -= game_framework.player.atk
                 game_framework.player.arrow_list.remove(arrow)
+                hit_sound.play()
                 if bosses.life <= 0:
                     if bosses.level > 1:
                         boss.append(Chasha(bosses.level - 1, bosses.x, bosses.y))

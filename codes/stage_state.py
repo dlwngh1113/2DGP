@@ -11,11 +11,15 @@ import start_state
 
 name = "StageState"
 monsters = []
+hit_sound = None
 
 
 def enter():
+    global hit_sound
     game_framework.player.stage_init()
     game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
+    hit_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\hit sound.ogg')
+    hit_sound.set_volume(40)
     for i in range(10):
         if random.randint(0, 100) < 50:
             monsters.append(Golem())
@@ -38,12 +42,13 @@ def collide(a, b):
 
 
 def exit():
-    global monsters
+    global monsters, hit_sound
     while len(monsters) > 0:
         monsters.pop()
     game_world.clear()
     while len(game_framework.player.arrow_list) > 0:
         game_framework.player.arrow_list.pop()
+    del hit_sound
     pass
 
 
@@ -62,6 +67,7 @@ def handle_events():
 
 
 def update():
+    global hit_sound
     for game_object in game_world.all_objects():
         game_object.update()
     game_framework.player.update()
@@ -70,6 +76,7 @@ def update():
             if collide(monster, arrow):
                 game_framework.player.arrow_list.remove(arrow)
                 monster.life -= game_framework.player.atk
+                hit_sound.play()
                 if monster.life <= 0:
                     monsters.remove(monster)
                     game_world.remove_object(monster)
