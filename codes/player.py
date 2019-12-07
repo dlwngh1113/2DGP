@@ -34,6 +34,8 @@ class Player:
 
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
+        self.shooting_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\shooting sound.ogg')
+        self.shooting_sound.set_volume(30)
         self.x, self.y = 300, 300
         self.life = 1000
         self.dir = 0
@@ -98,6 +100,7 @@ class Player:
             self.atk += int(self.atk ** 0.7) + 3
 
     def attack(self, event):
+        self.shooting_sound.play()
         self.arrow_list.insert(0, Arrow(event, self.x + self.charWidth / 2, self.y + self.charHeight / 2))
         pass
 
