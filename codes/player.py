@@ -30,7 +30,7 @@ FRAMES_PER_ACTION = 5
 
 class Player:
     money = 1000
-    atk = 100
+    atk = 157
 
     def __init__(self):
         self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
@@ -54,7 +54,7 @@ class Player:
 
     def stage_init(self):
         self.x, self.y = 250, 0
-        self.life = 100
+        self.life = 1000
         self.vertic_vel = 0
         self.horizon_vel = 0
         self.cur_state = MovingState
@@ -64,7 +64,6 @@ class Player:
         for arrow in self.arrow_list:
             arrow.draw()
         self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight + 20, str(self.life), (255, 0, 0))
-        draw_rectangle(*self.get_bb())
 
     def update(self):
         self.cur_state.do(self)

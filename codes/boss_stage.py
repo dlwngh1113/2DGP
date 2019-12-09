@@ -97,7 +97,6 @@ def draw():
         game_object.draw()
     game_framework.player.draw()
     for bosses in boss:
-        draw_rectangle(*bosses.get_bb())
         bosses.draw()
     update_canvas()
 

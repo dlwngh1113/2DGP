@@ -25,7 +25,6 @@ class Arrow:
 
     def draw(self):
         self.image.clip_draw(55 * self.frame, 0, 55, 48, self.x, self.y)
-        draw_rectangle(*self.get_bb())
         pass
 
     def update(self):

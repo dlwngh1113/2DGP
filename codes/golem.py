@@ -47,7 +47,6 @@ class Golem:
     def draw(self):
         self.cur_state.draw(self)
         self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight + 20, str(self.life), (255, 0, 0))
-        draw_rectangle(*self.get_bb())
 
     def update(self):
         self.cur_state.do(self)
