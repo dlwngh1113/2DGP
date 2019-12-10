@@ -1,5 +1,5 @@
-import game_framework
 import pico2d
+import game_framework
 import start_state
 from player import Player
 
