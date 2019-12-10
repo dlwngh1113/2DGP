@@ -78,7 +78,6 @@ class Player:
                 self.arrow_list.remove(arrow)
         if self.Isinvincible:
             if get_time() - self.invincible_time > 2.0:
-                print(self.invincible_time, get_time())
                 self.Isinvincible = False
 
     def add_event(self, event):

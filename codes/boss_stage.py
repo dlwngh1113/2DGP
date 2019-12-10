@@ -49,6 +49,8 @@ def handle_events():
             game_framework.pop_state()
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             game_framework.player.attack(event)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_F1:
+            game_framework.change_state(dead_state)
         else:
             game_framework.player.handle_event(event)
     pass
@@ -75,11 +77,9 @@ def update():
                         boss.append(Chasha(bosses.level - 1, bosses.x, bosses.y))
                         boss.append(Chasha(bosses.level - 1, bosses.x, bosses.y))
                         game_framework.player.money += bosses.money
-                        print(game_framework.player.money)
                         boss.remove(bosses)
                     else:
                         game_framework.player.money += bosses.money
-                        print(game_framework.player.money)
                         boss.remove(bosses)
     if len(boss) <= 0:
         game_framework.change_state(start_state)

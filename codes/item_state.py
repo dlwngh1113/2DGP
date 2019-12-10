@@ -60,7 +60,6 @@ def handle_events():
         elif event.type == SDL_MOUSEMOTION:
             x, y = event.x, 750 - event.y - 1
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-            print(x, y)
             if 240 < x < 420 and 100 < y < 160:
                 if game_framework.player.money > cost:
                     game_framework.player.reinforce(cost)

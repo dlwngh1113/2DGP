@@ -61,6 +61,8 @@ def handle_events():
             game_framework.change_state(start_state)
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
             game_framework.player.attack(event)
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_F1:
+            game_framework.change_state(boss_stage)
         else:
             game_framework.player.handle_event(event)
     pass
@@ -81,7 +83,6 @@ def update():
                     monsters.remove(monster)
                     game_world.remove_object(monster)
                     game_framework.player.money += monster.money
-                    print(game_framework.player.money)
     if not game_framework.player.Isinvincible:
         for monster in monsters:
             if collide(monster, game_framework.player):

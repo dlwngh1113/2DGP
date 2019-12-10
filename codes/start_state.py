@@ -37,7 +37,6 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         elif event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
-            print(x, y)
             if 165 < x < 380 and 140 < y < 220:
                 game_framework.push_state(stage_state)
             elif 90 < x < 180 and 0 < y <70:
