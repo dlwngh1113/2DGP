@@ -12,13 +12,13 @@ reinforce_sound = None
 
 def enter():
     global image, money_font, atk_font, cost_font, cost, reinforce_sound
-    reinforce_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\reinforce result.ogg')
+    reinforce_sound = load_wav('sound_resources\\reinforce result.ogg')
     reinforce_sound.set_volume(40)
-    money_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
-    atk_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 40)
-    cost_font = Font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf')
+    money_font = Font('gothic.ttf')
+    atk_font = Font('gothic.ttf', 40)
+    cost_font = Font('gothic.ttf')
     cost = game_framework.player.atk * 10
-    image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\item page.png')
+    image = load_image('image_resources\\item page.png')
 
 
 def exit():

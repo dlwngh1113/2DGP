@@ -6,7 +6,7 @@ open_canvas(WIDTH, HEIGHT)
 map_list = []
 SIZE = 50
 select_num = 1
-tile_image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\tile_sheet.png')
+tile_image = load_image('image_resources\\tile_sheet.png')
 
 
 

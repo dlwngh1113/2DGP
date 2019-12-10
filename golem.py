@@ -5,7 +5,7 @@ import game_framework
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, UPSIDE_DOWN, UPSIDE_UP, DOWNSIDE_DOWN, DOWNSIDE_UP = range(8)
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 15.0  # Km / Hour
+RUN_SPEED_KMPH = 10.0  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -27,18 +27,18 @@ key_event_table = {
 }
 
 
-class Ghost:
+class Golem:
     def __init__(self):
-        self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\ghost image.png')
-        self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
+        self.image = load_image('image_resources\\golem image.png')
+        self.font = load_font('gothic.ttf', 12)
         self.x, self.y = random.randint(0, 500), random.randint(300, 700)
         self.horizon_dir, self.vertic_dir = 0, 0
-        self.velocity = 4
+        self.velocity = 2
         self.charWidth = 33
         self.charHeight = 32
-        self.money = 50
-        self.atk = 30
-        self.life = 500
+        self.money = 30
+        self.atk = 50
+        self.life = 1000
         self.xframe, self.yframe = 0, 0
         self.event_que = []
         self.cur_state = IdleState
@@ -46,7 +46,7 @@ class Ghost:
 
     def draw(self):
         self.cur_state.draw(self)
-        self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight * 1.5, str(self.life), (255, 0, 0))
+        self.font.draw(self.x + self.charWidth / 2, self.y + self.charHeight + 20, str(self.life), (255, 0, 0))
 
     def update(self):
         self.cur_state.do(self)
@@ -58,7 +58,7 @@ class Ghost:
         pass
 
     def get_bb(self):
-        return self.x + 10, self.y, self.x + self.charWidth + 10, self.y + self.charHeight + 10
+        return self.x, self.y, self.x + self.charWidth + 10, self.y + self.charHeight + 10
 
 
 class VerticMove:
@@ -76,7 +76,7 @@ class IdleState:
 
     @staticmethod
     def exit(monster, event):
-        del (monster)
+        del(monster)
         pass
 
     @staticmethod

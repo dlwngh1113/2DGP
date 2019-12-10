@@ -33,8 +33,8 @@ class Player:
     atk = 157
 
     def __init__(self):
-        self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\character.png')
-        self.shooting_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\shooting sound.ogg')
+        self.image = load_image('image_resources\\character.png')
+        self.shooting_sound = load_wav('sound_resources\\shooting sound.ogg')
         self.shooting_sound.set_volume(30)
         self.x, self.y = 300, 300
         self.life = 1000
@@ -45,7 +45,7 @@ class Player:
         self.charWidth = 55
         self.charHeight = 54
         self.invincible_time = 0.0
-        self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
+        self.font = load_font('gothic.ttf', 12)
         self.frame = 0
         self.arrow_list = []
         self.event_que = []

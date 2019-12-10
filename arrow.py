@@ -21,7 +21,7 @@ class Arrow:
         else:
             self.frame = 2
         if self.image == None:
-            self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\arrow_image.png')
+            self.image = load_image('image_resources\\arrow_image.png')
 
     def draw(self):
         self.image.clip_draw(55 * self.frame, 0, 55, 48, self.x, self.y)

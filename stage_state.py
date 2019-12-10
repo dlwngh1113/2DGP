@@ -17,8 +17,8 @@ hit_sound = None
 def enter():
     global hit_sound
     game_framework.player.stage_init()
-    game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
-    hit_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\hit sound.ogg')
+    game_world.add_object(Map('map1.txt'), 0)
+    hit_sound = load_wav('sound_resources\\hit sound.ogg')
     hit_sound.set_volume(40)
     for i in range(10):
         if random.randint(0, 100) < 50:

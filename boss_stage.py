@@ -25,8 +25,8 @@ def collide(a, b):
 def enter():
     global boss, hit_sound
     boss.append(Chasha(3))
-    game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
-    hit_sound = load_wav('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\sound_resources\\hit sound.ogg')
+    game_world.add_object(Map('map1.txt'), 0)
+    hit_sound = load_wav('sound_resources\\hit sound.ogg')
     hit_sound.set_volume(40)
     pass
 

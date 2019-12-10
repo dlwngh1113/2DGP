@@ -19,8 +19,8 @@ class Chasha:
     image = None
     def __init__(self, level=None, x=None, y=None):
         if self.image is None:
-            self.image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\chasha.png')
-        self.font = load_font('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\gothic.ttf', 12)
+            self.image = load_image('image_resources\\chasha.png')
+        self.font = load_font('gothic.ttf', 12)
         if x is None and y is None:
             x, y = 250, 600
         self.x, self.y = x, y

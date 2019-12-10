@@ -10,8 +10,8 @@ timer = 0.0
 def enter():
     global image, timer
     game_framework.player.money -= int(game_framework.player.money * 0.1)
-    image = load_image('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\image_resources\\you died.png')
-    game_world.add_object(Map('C:\\Users\\dlwng\\Desktop\\2DGP\\TermProj\\codes\\map1.txt'), 0)
+    image = load_image('image_resources\\you died.png')
+    game_world.add_object(Map('map1.txt'), 0)
     timer = get_time()
     pass
 
